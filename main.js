@@ -1,5 +1,5 @@
 'use strict'
-
+// { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
 var cards = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
 { name: '2D', score: 2 }, { name: '3D', score: 3 }, { name: '4D', score: 4 }, { name: '5D', score: 5 }, { name: '6D', score: 6 }, { name: '7D', score: 7 }, { name: '8D', score: 8 }, { name: '9D', score: 9 }, { name: '10D', score: 10 }, { name: 'JD', score: 10 }, { name: 'QD', score: 10 }, { name: 'KD', score: 10 }, { name: 'AD', score: 11 },
@@ -8,34 +8,37 @@ var cards = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', s
 var playerHand = [];
 var dealerHand = [];
 var isClicked = false
-var bet = document.querySelector('#total-bet');
-var hitBtn = document.querySelector('#hit-btn');
-var standBtn = document.querySelector('#stand-btn');
-var doubleBtn = document.querySelector('#double-btn');
 
 
-
-doubleBtn.addEventListener('click', function () {
-    bet.value = bet.value * 2
-});
-
-
-standBtn.addEventListener('click', function () {
-
-    dealerHand.push(randomCardName(cards));
-
-    document.querySelector('#dealer-side').innerHTML = '';
+function doubleBet() {
+    var bet = document.querySelector('#total-bet');
+    bet.value = bet.value * 2;
+    playerHand.push(randomCardName(cards));
     document.querySelector('#player-side').innerHTML = '';
-
-    printDealerCards(dealerHand);
-
     printPlayerCards(playerHand);
+    //    აქ 21 ქულაზე მეტი ყავს თუ არა აქვს მნიშვნელობა?..ანუ 21 ქულის შეზღუდვა არის კიდევ?
 
-});
+    if (getTotalScore(playerHand) > getTotalScore(dealerHand)) {
+        alert(`Congratulation! You Win! Your Win Is ${bet.value}$!`);
+        newGame();
+    } else if (getTotalScore(playerHand) < getTotalScore(dealerHand)) {
+        alert(`You Lose The Game :( Your lose is ${bet.value}$!`);
+        newGame();
+    } else {
+        alert(`Draw! You Get Back Your Bet: ${bet.value}$!`);
+        newGame();
+    }
+    console.log(getTotalScore(dealerHand));
+    console.log(getTotalScore(playerHand));
+}
 
+function stand() {
+    dealerHand.push(randomCardName(cards));
+    document.querySelector('#dealer-side').innerHTML = '';
+    printDealerCards(dealerHand);
+}
 
-hitBtn.addEventListener('click', function () {
-
+function hitCards() {
     playerHand.push(randomCardName(cards));
     dealerHand.push(randomCardName(cards));
 
@@ -43,31 +46,62 @@ hitBtn.addEventListener('click', function () {
     document.querySelector('#player-side').innerHTML = '';
 
     printDealerCards(dealerHand);
-
     printPlayerCards(playerHand);
-});
 
+    if (getTotalScore(playerHand) > 21) {
+        alert(`You Lose The Game :( Your lose is ${document.querySelector('#total-bet').value} $!`);
+        newGame();
+    }
+}
+
+function surrender() {
+    var bet = document.querySelector('#total-bet');
+
+    alert(`You gave up! You Lose ${bet.value / 2}$`)
+    newGame()
+}
+
+function newGame() {
+    document.querySelector('#dealer-side').innerHTML = '';
+    document.querySelector('#player-side').innerHTML = '';
+
+    document.querySelector('#total-bet').value = '';
+
+    var dealBtn = document.querySelector('#deal-btn');
+    dealBtn.classList.remove('hidden');
+
+    var hitBtn = document.querySelector('#hit-btn');
+    hitBtn.classList.add('hidden');
+
+    var standBtn = document.querySelector('#stand-btn');
+    standBtn.classList.add('hidden');
+
+    var doubleBtn = document.querySelector('#double-btn');
+    doubleBtn.classList.add('hidden');
+
+    var surrenderBtn = document.querySelector('#surrender-btn');
+    surrenderBtn.classList.add('hidden');
+
+    dealPlayersCards()
+}
 
 function getTotalScore(hand) {
     var totalScore = 0
     for (var i = 0; i < hand.length; i++) {
         totalScore += hand[i].score;
     }
-    return totalScore
+    return totalScore;
 }
-
 
 function randomCardName(deck) {
     var randomIndex = Math.floor(deck.length * Math.random());
     return deck[randomIndex];
-};
+}
 
-
-function dealCards() {
+function dealPlayersCards() {
     playerHand = [randomCardName(cards), randomCardName(cards)];
     dealerHand = [randomCardName(cards), randomCardName(cards)];
-};
-
+}
 
 function printDealerCards(dealer) {
     dealer.forEach(card => {
@@ -76,8 +110,7 @@ function printDealerCards(dealer) {
 
         document.querySelector('#dealer-side').appendChild(dealerHandCardEl);
     })
-};
-
+}
 
 function printPlayerCards(player) {
     player.forEach(card => {
@@ -86,50 +119,55 @@ function printPlayerCards(player) {
 
         document.querySelector('#player-side').appendChild(playerHandCardEl);
     })
-};
+}
 
-function gamePlay() {
-    if (getTotalScore(playerHand) == 21 && !getTotalScore(dealerHand) == 21) {
-        return alert(`Congratilation! You Win! Your Win Is ${bet * 1.5}$!`)
-    } else if (getTotalScore(dealerHand) == 21 && !getTotalScore(playerHand) == 21) {
-        return alert(`Sory! You Lose The Game. Your Lose is ${bet}$!`)
-    } else if (getTotalScore(playerHand) == 21 && getTotalScore(dealerHand) == 21) {
-        return alert(`Draw! Your Win Is Your Bet: ${bet}$!`)
+function playerGetBlackJack() {
+    var bet = document.querySelector('#total-bet');
+
+    if (getTotalScore(playerHand) === 21 && getTotalScore(dealerHand) !== 21) {
+        alert(`Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`);
+        newGame();
+    } else if (getTotalScore(playerHand) === 21 && getTotalScore(dealerHand) === 21) {
+        alert(`Draw! Your Get Back Your Bet: ${bet.value}$!`);
+        newGame();
     }
 }
 
+function dealCards() {
+    if (document.querySelector('#total-bet').value == 0) {
+        return alert('Please Make Your Bet :)')
+    }
 
-function startGame() {
+    dealPlayersCards();
+    printDealerCards(dealerHand);
+    printPlayerCards(playerHand);
+    playerGetBlackJack();
 
-    var dealBtn = document.querySelector('#deal-cards');
-    dealBtn.addEventListener('click', function () {
+    if ((dealerHand[0].name !== 'AC' || dealerHand[0].name !== 'AH' || dealerHand[0].name !== 'AD' || dealerHand[0].name !== 'AS') && getTotalScore(dealerHand) !== 21) {
+        var dealBtn = document.querySelector('#deal-btn');
+        dealBtn.classList.add('hidden');
 
-        if (bet.value == 0) {
-            return alert('Please Make Your Bet :)')
-        }
+        var hitBtn = document.querySelector('#hit-btn');
+        hitBtn.classList.remove('hidden');
 
-        dealCards();
+        var standBtn = document.querySelector('#stand-btn');
+        standBtn.classList.remove('hidden');
 
-        printDealerCards(dealerHand);
-        printPlayerCards(playerHand);
+        var doubleBtn = document.querySelector('#double-btn');
+        doubleBtn.classList.remove('hidden');
 
-        if (dealerHand[0].name !== 'AC' || dealerHand[0].name !== 'AH' || dealerHand[0].name !== 'AD' || dealerHand[0].name !== 'AS') {
-            dealBtn.classList.add('hidden');
-            hitBtn.classList.remove('hidden');
-            standBtn.classList.remove('hidden');
-            doubleBtn.classList.remove('hidden');
-        }
+        var surrenderBtn = document.querySelector('#surrender-btn');
+        surrenderBtn.classList.remove('hidden');
+    }
 
-        console.log(getTotalScore(dealerHand));
-        gamePlay()
+    if (getTotalScore(playerHand) > 21) {
+        alert(`You Lose The Game :( Your lose is ${document.querySelector('#total-bet').value} $!`);
+        newGame();
+    }
 
-
-    });
+    console.log(getTotalScore(dealerHand));
+    console.log(getTotalScore(playerHand));
 }
-
-
-startGame();
-
 
 
 

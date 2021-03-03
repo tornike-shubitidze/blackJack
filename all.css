@@ -18,7 +18,7 @@ body {
   display: none;
 }
 
-#deal-cards,
+#deal-btn,
 #hit-btn,
 #stand-btn,
 #surrender-btn,
@@ -28,7 +28,7 @@ body {
   border-radius: 10px;
 }
 
-#deal-cards {
+#deal-btn {
   background: url(/imgs/deal.jpg) no-repeat center;
 }
 
