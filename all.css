@@ -1,0 +1,88 @@
+* {
+  margin: none;
+  padding: none;
+  box-sizing: border-box;
+  color: darkgoldenrod;
+}
+
+body {
+  background: url(/imgs/1.jpg);
+  background-position: center/center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 90vh;
+  width: 90vw;
+}
+
+.hidden {
+  display: none;
+}
+
+#deal-cards,
+#hit-btn,
+#stand-btn,
+#surrender-btn,
+#double-btn {
+  height: 90px;
+  width: 60px;
+  border-radius: 10px;
+}
+
+#deal-cards {
+  background: url(/imgs/deal.jpg) no-repeat center;
+}
+
+#hit-btn {
+  background: url(/imgs/hit.jpg) no-repeat center;
+  margin: auto;
+}
+
+#stand-btn {
+  background: url(/imgs/stand.jpg) no-repeat center;
+  margin: auto;
+}
+
+#surrender-btn {
+  background: url(/imgs/surrender.jpg) no-repeat center;
+  margin: auto;
+  width: 85px;
+}
+
+#double-btn {
+  background: url(/imgs/double.jpg) no-repeat center;
+  margin: auto;
+}
+
+#total-bet,
+#total-win {
+  width: 65px;
+  background-color: #333;
+  border-radius: 8px;
+  text-align: center;
+  color: darkorange;
+  border: none;
+  height: 30px;
+}
+
+#total-bet {
+  margin-top: 152px;
+  margin-left: 467px;
+}
+
+#total-win {
+  margin-left: 55px;
+}
+
+#dealer-side,
+#player-side {
+  text-align: center;
+}
+
+img {
+  width: 8%;
+  padding-top: 15px;
+}
+
+#game-buttons {
+  text-align: center;
+}
