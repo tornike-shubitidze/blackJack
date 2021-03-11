@@ -128,7 +128,7 @@ function dealPlayersCards() {
 function printDealerCards(dealer) {
     dealer.forEach(card => {
         var dealerHandCardEl = document.createElement('img');
-        dealerHandCardEl.src = `/imgs/cards/${card.name}.png`;
+        dealerHandCardEl.src = `./imgs/cards/${card.name}.png`;
 
         document.querySelector('#dealer-side').appendChild(dealerHandCardEl);
     })
@@ -138,7 +138,7 @@ function printDealerCards(dealer) {
 function printPlayerCards(player) {
     player.forEach(card => {
         var playerHandCardEl = document.createElement('img');
-        playerHandCardEl.src = `/imgs/cards/${card.name}.png`;
+        playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
 
         document.querySelector('#player-side').appendChild(playerHandCardEl);
     })
@@ -172,7 +172,7 @@ function gameStatus() {
 
     dealerHand.forEach(card => {
         var dealerHandCardEl = document.createElement('img');
-        dealerHandCardEl.src = `/imgs/cards/${card.name}.png`;
+        dealerHandCardEl.src = `./imgs/cards/${card.name}.png`;
         dealerHandCardEl.classList.add('status-cards-imgs');
 
         document.querySelector('.dealerhand-cards').appendChild(dealerHandCardEl);
@@ -182,7 +182,7 @@ function gameStatus() {
 
     playerHand.forEach(card => {
         var playerHandCardEl = document.createElement('img');
-        playerHandCardEl.src = `/imgs/cards/${card.name}.png`;
+        playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
         playerHandCardEl.classList.add('status-cards-imgs');
 
         document.querySelector('.playerhand-cards').appendChild(playerHandCardEl);
