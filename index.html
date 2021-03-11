@@ -15,21 +15,35 @@
         <input id="total-win" type="text" placeholder="Your Win">
     </div>
 
-    <div id='dealer-side'>
+    <div id="result-window" class='hidden'>
+        <br>
 
+        <h2 id="status-message"></h2><br>
+
+        <h4 id='dealer-text'></h4>
+        <div class="dealerhand-cards">
+
+        </div>
+
+        <h4 id='player-text'></h4>
+        <div class="playerhand-cards">
+
+        </div>
+
+        <button id="start-game" onclick="newGame()"> New Game </button>
+
+    </div>
+
+    <div id='dealer-side'>
     </div>
 
     <div id='player-side'>
-
     </div>
-
-
-    <div id='player-side'></div>
 
     <footer class='footer'>
         <div id='game-buttons'>
             <button id='deal-btn' class='' onclick="dealCards()"></button>
-            <button id='hit-btn' class='hidden' onclick="hitCards()"></button>
+            <button id='hit-btn' class='hidden' onclick="hit()"></button>
             <button id='stand-btn' class='hidden' onclick="stand()"></button>
             <button id='surrender-btn' class='hidden' onclick="surrender()"></button>
             <button id='double-btn' class='hidden' onclick="doubleBet()"></button>
