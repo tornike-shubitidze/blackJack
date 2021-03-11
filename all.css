@@ -5,7 +5,7 @@
 }
 
 body {
-  background: url(/imgs/1.jpg);
+  background: url(./imgs/1.jpg);
   background-position: center/center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -34,27 +34,27 @@ body {
 }
 
 #deal-btn {
-  background: url(/imgs/deal.jpg) no-repeat center;
+  background: url(./imgs/deal.jpg) no-repeat center;
 }
 
 #hit-btn {
-  background: url(/imgs/hit.jpg) no-repeat center;
+  background: url(./imgs/hit.jpg) no-repeat center;
   margin: auto;
 }
 
 #stand-btn {
-  background: url(/imgs/stand.jpg) no-repeat center;
+  background: url(./imgs/stand.jpg) no-repeat center;
   margin: auto;
 }
 
 #surrender-btn {
-  background: url(/imgs/surrender.jpg) no-repeat center;
+  background: url(./imgs/surrender.jpg) no-repeat center;
   margin: auto;
   width: 85px;
 }
 
 #double-btn {
-  background: url(/imgs/double.jpg) no-repeat center;
+  background: url(./imgs/double.jpg) no-repeat center;
   margin: auto;
 }
 
