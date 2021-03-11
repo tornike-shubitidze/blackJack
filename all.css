@@ -9,8 +9,8 @@ body {
   background-position: center/center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 90vh;
-  width: 90vw;
+  /* height: 90vh;
+  width: 90vw; */
 }
 
 .hidden {
@@ -70,12 +70,8 @@ body {
 }
 
 #beting {
-  margin-left: 27%;
-  margin-top: 9.2%;
-
-  /* top: 17.2%;
-  left: 24.8%;
-  position: fixed; */
+  margin-left: 24.6%;
+  margin-top: 8.4%;
 }
 
 #total-win {
@@ -85,12 +81,17 @@ body {
 #dealer-side,
 #player-side {
   text-align: center;
-  /* margin: auto; */
 }
 
 img {
   width: 10%;
-  padding-top: 15px;
+}
+
+#player-side img,
+#dealer-side img {
+  margin: -3.5%;
+  margin-top: 0px;
+  height: 100%;
 }
 
 #game-buttons,
@@ -105,13 +106,15 @@ h2 {
 }
 
 #result-window {
-  /* display: grid; */
-  height: 600px;
-  width: 700px;
+  height: 100%;
+  width: 40%;
   margin: auto;
-  background: green;
-  border-radius: 30px;
-  margin-top: 20px;
+  background: url(./imgs/unsplash-2.jfif) no-repeat center;
+  background-size: cover;
+  border-radius: 5%;
+  margin-top: 10px;
+  /* color: rgb(226, 43, 58); */
+  color: blueviolet;
 }
 
 #start-game {
@@ -122,7 +125,7 @@ h2 {
   border: hidden;
   background: blueviolet;
   color: #f4f4f4;
-  margin-top: 50px;
+  margin: 40px 0px;
   cursor: pointer;
 }
 
