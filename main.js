@@ -2,7 +2,7 @@
 // { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
 // todo
-var cards = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
+const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
 { name: '2D', score: 2 }, { name: '3D', score: 3 }, { name: '4D', score: 4 }, { name: '5D', score: 5 }, { name: '6D', score: 6 }, { name: '7D', score: 7 }, { name: '8D', score: 8 }, { name: '9D', score: 9 }, { name: '10D', score: 10 }, { name: 'JD', score: 10 }, { name: 'QD', score: 10 }, { name: 'KD', score: 10 }, { name: 'AD', score: 11 },
 { name: '2H', score: 2 }, { name: '3H', score: 3 }, { name: '4H', score: 4 }, { name: '5H', score: 5 }, { name: '6H', score: 6 }, { name: '7H', score: 7 }, { name: '8H', score: 8 }, { name: '9H', score: 9 }, { name: '10H', score: 10 }, { name: 'JH', score: 10 }, { name: 'QH', score: 10 }, { name: 'KH', score: 10 }, { name: 'AH', score: 11 },
 { name: '2S', score: 2 }, { name: '3S', score: 3 }, { name: '4S', score: 4 }, { name: '5S', score: 5 }, { name: '6S', score: 6 }, { name: '7S', score: 7 }, { name: '8S', score: 8 }, { name: '9S', score: 9 }, { name: '10S', score: 10 }, { name: 'JS', score: 10 }, { name: 'QS', score: 10 }, { name: 'KS', score: 10 }, { name: 'AS', score: 11 }]
@@ -80,6 +80,7 @@ function stand() {
         gameStatus();
     }
 
+    // todo
     if (getTotalScore(dealerHand) >= 17 && getTotalScore(dealerHand) < 21) {
 
         if (getTotalScore(dealerHand) > getTotalScore(playerHand)) {
@@ -98,18 +99,16 @@ function stand() {
 }
 
 function hit() {
-    var bet = document.querySelector('#total-bet');
     playerHand.push(randomCard(playerHand));
     document.querySelector('#player-side').innerHTML = '';
     printPlayerCards(playerHand);
 
     if (getTotalScore(playerHand) > 21) {
+        var bet = document.querySelector('#total-bet');
         statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
         totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
         gameStatus();
     }
-
-    /* */
 }
 
 function surrender() {
@@ -135,23 +134,23 @@ function newGame() {
     statusMessage = '';
 }
 
-function getTotalScore(hand) {
+function getTotalScore(cardsArray) {
     var totalScore = 0
-    for (var i = 0; i < hand.length; i++) {
-        totalScore += hand[i].score;
+    for (var i = 0; i < cardsArray.length; i++) {
+        totalScore += cardsArray[i].score;
     }
     return totalScore;
 }
 
 function randomCard(gamerCards) {
-    let cardIndex = Math.floor(cards.length * Math.random());
+    let cardIndex = Math.floor(CARDS.length * Math.random());
 
-    let card = cards[cardIndex];
+    let card = CARDS[cardIndex];
     let cardExists = gamerCards.some(t => t.name === card.name);
 
     while (cardExists) {
-        cardIndex = Math.floor(cards.length * Math.random());
-        card = cards[cardIndex];
+        cardIndex = Math.floor(CARDS.length * Math.random());
+        card = CARDS[cardIndex];
         cardExists = gamerCards.some(t => t.name === card.name);
     }
 
