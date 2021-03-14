@@ -5,12 +5,10 @@
 }
 
 body {
-  background: url(./imgs/1.jpg);
+  background: url(./imgs/1.jpg) no-repeat;
   background-position: center/center;
-  background-repeat: no-repeat;
   background-size: cover;
-  /* height: 90vh;
-  width: 90vw; */
+  height: auto;
 }
 
 .hidden {
@@ -18,8 +16,8 @@ body {
 }
 
 .footer {
-  bottom: 3%;
-  left: 35%;
+  bottom: 45%;
+  left: 70%;
   position: fixed;
 }
 
@@ -31,6 +29,7 @@ body {
   height: 90px;
   width: 60px;
   border-radius: 10px;
+  background-position: cover;
 }
 
 #deal-btn {
@@ -39,34 +38,30 @@ body {
 
 #hit-btn {
   background: url(./imgs/hit.jpg) no-repeat center;
-  margin: auto;
 }
 
 #stand-btn {
   background: url(./imgs/stand.jpg) no-repeat center;
-  margin: auto;
 }
 
 #surrender-btn {
   background: url(./imgs/surrender.jpg) no-repeat center;
-  margin: auto;
   width: 85px;
 }
 
 #double-btn {
   background: url(./imgs/double.jpg) no-repeat center;
-  margin: auto;
 }
 
 #total-bet,
 #total-win {
-  width: 65px;
+  width: 4.5%;
+  height: 30px;
   background-color: #333;
   border-radius: 8px;
   text-align: center;
   color: darkorange;
   border: none;
-  height: 30px;
 }
 
 #beting {
@@ -112,14 +107,19 @@ h2 {
   background: url(./imgs/unsplash-2.jfif) no-repeat center;
   background-size: cover;
   border-radius: 5%;
-  margin-top: 10px;
+  margin-top: 1%;
   /* color: rgb(226, 43, 58); */
   color: blueviolet;
 }
 
+.status-cards-imgs {
+  padding-top: 10px;
+  width: 13%;
+}
+
 #start-game {
   height: 40px;
-  width: 200px;
+  width: 25%;
   margin: auto;
   border-radius: 15px;
   border: hidden;

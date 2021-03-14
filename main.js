@@ -1,6 +1,7 @@
 'use strict'
 // { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
+// todo
 var cards = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
 { name: '2D', score: 2 }, { name: '3D', score: 3 }, { name: '4D', score: 4 }, { name: '5D', score: 5 }, { name: '6D', score: 6 }, { name: '7D', score: 7 }, { name: '8D', score: 8 }, { name: '9D', score: 9 }, { name: '10D', score: 10 }, { name: 'JD', score: 10 }, { name: 'QD', score: 10 }, { name: 'KD', score: 10 }, { name: 'AD', score: 11 },
 { name: '2H', score: 2 }, { name: '3H', score: 3 }, { name: '4H', score: 4 }, { name: '5H', score: 5 }, { name: '6H', score: 6 }, { name: '7H', score: 7 }, { name: '8H', score: 8 }, { name: '9H', score: 9 }, { name: '10H', score: 10 }, { name: 'JH', score: 10 }, { name: 'QH', score: 10 }, { name: 'KH', score: 10 }, { name: 'AH', score: 11 },
@@ -8,31 +9,59 @@ var cards = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', s
 var playerHand = [];
 var dealerHand = [];
 var statusMessage = '';
+var totalWin = document.querySelector('#total-win');
 
+
+function printStatus(gameStatus = 1) {
+    switch (gameStatus) {
+        case 1:
+            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value}$!`;
+            break;
+        case 2:
+            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
+            break;
+        case 1:
+            statusMessage = message;
+            break;
+        default:
+            break;
+    }
+    var bet = document.querySelector('#total-bet');
+
+    if (win) {
+        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+    } else {
+        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) * 1.5;
+    }
+}
 
 function doubleBet() {
     var bet = document.querySelector('#total-bet');
-    bet.value = bet.value * 2;
+
+    bet.value = parseFloat(bet.value) * 2;
     playerHand.push(randomCard(playerHand));
     document.querySelector('#player-side').innerHTML = '';
     printPlayerCards(playerHand);
 
-    if (getTotalScore(playerHand) > 21) {
+    let playerTotalScore = getTotalScore(playerHand);
+
+    if (playerTotalScore > 21) {
         statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
-        gameStatus();
+        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
     } else {
-        if (getTotalScore(playerHand) > getTotalScore(dealerHand)) {
+        let dealerTotalScore = getTotalScore(dealerHand);
+
+        if (playerTotalScore > dealerTotalScore) {
             statusMessage = `Congratulation! You Win! Your Win Is ${bet.value}$!`;
-            gameStatus();
-        } else if (getTotalScore(playerHand) < getTotalScore(dealerHand)) {
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+        } else if (playerTotalScore < dealerTotalScore) {
             statusMessage = `You Lose The Game :( Your Lose Is ${bet.value}$!`;
-            gameStatus();
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
         } else {
             statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
-            gameStatus();
         }
     }
-
+    gameStatus();
 }
 
 function stand() {
@@ -44,6 +73,7 @@ function stand() {
 
     if (getTotalScore(dealerHand) > 21) {
         statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
+        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
         gameStatus();
     }
 
@@ -51,14 +81,15 @@ function stand() {
 
         if (getTotalScore(dealerHand) > getTotalScore(playerHand)) {
             statusMessage = `You Lose The Game :( Your Lose Is ${bet.value}$!`;
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
         }
         else if (getTotalScore(dealerHand) < getTotalScore(playerHand)) {
             statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
         }
         else {
             statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`
         }
-
         gameStatus();
     }
 }
@@ -71,21 +102,25 @@ function hit() {
 
     if (getTotalScore(playerHand) > 21) {
         statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
+        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
         gameStatus();
     }
+
+    /* */
 }
 
 function surrender() {
     var bet = document.querySelector('#total-bet');
 
     statusMessage = `You Gave Up! You Lose ${bet.value / 2}$`;
+    totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) / 2;
     gameStatus();
 }
 
 function newGame() {
 
     document.querySelector('#result-window').classList.add('hidden');
-    document.querySelector('#total-bet').value = '';
+    document.querySelector('#total-bet').value = 0;
 
     document.querySelector('.dealerhand-cards').innerHTML = '';
     document.querySelector('.playerhand-cards').innerHTML = '';
@@ -138,7 +173,6 @@ function printDealerCards(dealer) {
     }
 
 }
-
 
 function printPlayerCards(player) {
     player.forEach(card => {
@@ -199,6 +233,7 @@ function playerGetBlackJack() {
 
     if (getTotalScore(playerHand) == 21 && getTotalScore(dealerHand) !== 21) {
         statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
+        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
         gameStatus();
     }
     else if (getTotalScore(playerHand) == 21 && getTotalScore(dealerHand) == 21) {
@@ -210,7 +245,7 @@ function playerGetBlackJack() {
 function dealCards() {
     var bet = document.querySelector('#total-bet');
 
-    if (bet.value == 0 || bet.value == '') {
+    if (bet.value == 0 || bet.value == '' || isNaN(parseFloat(bet.value))) {
         return alert('Please Make Your Bet :)')
     }
 
@@ -220,7 +255,8 @@ function dealCards() {
     playerGetBlackJack();
 
     if (getTotalScore(playerHand) > 21) {
-        statusMessage = `You Lose The Game :( Your lose is ${document.querySelector('#total-bet').value} $!`;
+        statusMessage = `You Lose The Game :( Your lose is ${bet.value} $!`;
+        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
         gameStatus();
     }
 
@@ -240,9 +276,6 @@ function dealCards() {
         var surrenderBtn = document.querySelector('#surrender-btn');
         surrenderBtn.classList.remove('hidden');
     }
-
-    console.log(getTotalScore(dealerHand));
-    console.log(getTotalScore(playerHand));
 }
 
 function backgroundColorChange() {
