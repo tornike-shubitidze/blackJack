@@ -10,28 +10,34 @@ var playerHand = [];
 var dealerHand = [];
 var statusMessage = '';
 var totalWin = document.querySelector('#total-win');
+const STATUS = {
+    WIN: 1,
+    LOSE: 2,
+    DRAW: 3,
+}
 
+function printStatus(statusCode) {
+    if (!statusCode) {
+        throw new Error(""); // todo
+    }
 
-function printStatus(gameStatus = 1) {
-    switch (gameStatus) {
-        case 1:
+    var bet = document.querySelector('#total-bet');
+    switch (statusCode) {
+        case STATUS.WIN: // win
             statusMessage = `Congratulation! You Win! Your Win Is ${bet.value}$!`;
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
             break;
-        case 2:
+        case STATUS.LOSE:
             statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
             break;
-        case 1:
+        case STATUS.DRAW:
             statusMessage = message;
+            statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
             break;
         default:
+            // todo
             break;
-    }
-    var bet = document.querySelector('#total-bet');
-
-    if (win) {
-        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
-    } else {
-        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) * 1.5;
     }
 }
 
@@ -46,19 +52,16 @@ function doubleBet() {
     let playerTotalScore = getTotalScore(playerHand);
 
     if (playerTotalScore > 21) {
-        statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
-        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+        printStatus(STATUS.LOSE);
     } else {
         let dealerTotalScore = getTotalScore(dealerHand);
 
         if (playerTotalScore > dealerTotalScore) {
-            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value}$!`;
-            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+            printStatus(STATUS.WIN);
         } else if (playerTotalScore < dealerTotalScore) {
-            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value}$!`;
-            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+            printStatus(STATUS.LOSE);
         } else {
-            statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
+            printStatus(STATUS.DRAW);
         }
     }
     gameStatus();
