@@ -14,6 +14,9 @@ const STATUS = {
     WIN: 1,
     LOSE: 2,
     DRAW: 3,
+    SURRENDER: 4,
+    STANDWIN: 5,
+    STANDLOSE: 6
 }
 
 function printStatus(statusCode) {
@@ -22,31 +25,45 @@ function printStatus(statusCode) {
     }
 
     var bet = document.querySelector('#total-bet');
+
     switch (statusCode) {
         case STATUS.WIN: // win
-            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value}$!`;
+            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
             totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
             break;
-        case STATUS.LOSE:
+        case STATUS.LOSE: // lose
             statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
             totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
             break;
-        case STATUS.DRAW:
-            statusMessage = message;
+        case STATUS.DRAW: //draw
             statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
             break;
+        case STATUS.SURRENDER: //surrender
+            statusMessage = `You Gave Up! You Lose ${bet.value / 2}$`;
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) / 2;
+            break;
+        case STATUS.STANDWIN:
+            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 2}$!`;
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 2;
+            break;
+        case STATUS.STANDLOSE:
+            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value * 2} $!`;
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) * 2;
+            break;
         default:
-            // todo
+            statusMessage = 'Incorrect Status Code! Please Check "printStatus Function"!'   // todo
             break;
     }
 }
 
 function doubleBet() {
-    var bet = document.querySelector('#total-bet');
-
+    let bet = document.querySelector('#total-bet');
     bet.value = parseFloat(bet.value) * 2;
+
     playerHand.push(randomCard(playerHand));
+
     document.querySelector('#player-side').innerHTML = '';
+
     printPlayerCards(playerHand);
 
     let playerTotalScore = getTotalScore(playerHand);
@@ -68,31 +85,29 @@ function doubleBet() {
 }
 
 function stand() {
-    var bet = document.querySelector('#total-bet');
-
     dealerHand.push(randomCard(dealerHand));
     document.querySelector('#dealer-side').innerHTML = '';
     printDealerCards(dealerHand);
 
-    if (getTotalScore(dealerHand) > 21) {
-        statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
-        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+    let dealerTotalScore = getTotalScore(dealerHand);
+
+    if (dealerTotalScore > 21) {
+        printStatus(STATUS.WIN);
         gameStatus();
     }
 
-    // todo
-    if (getTotalScore(dealerHand) >= 17 && getTotalScore(dealerHand) < 21) {
+    if (dealerTotalScore >= 17 && dealerTotalScore < 21) {
 
-        if (getTotalScore(dealerHand) > getTotalScore(playerHand)) {
-            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value}$!`;
-            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+        var playerTotalScore = getTotalScore(playerHand);
+
+        if (dealerTotalScore > playerTotalScore) {
+            printStatus(STATUS.STANDLOSE);
         }
-        else if (getTotalScore(dealerHand) < getTotalScore(playerHand)) {
-            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
-            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+        else if (dealerTotalScore < playerTotalScore) {
+            printStatus(STATUS.STANDWIN);
         }
         else {
-            statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`
+            printStatus(STATUS.DRAW);
         }
         gameStatus();
     }
@@ -103,19 +118,16 @@ function hit() {
     document.querySelector('#player-side').innerHTML = '';
     printPlayerCards(playerHand);
 
-    if (getTotalScore(playerHand) > 21) {
-        var bet = document.querySelector('#total-bet');
-        statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
-        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+    let playerTotalScore = getTotalScore(playerHand);
+
+    if (playerTotalScore > 21) {
+        printStatus(STATUS.LOSE);
         gameStatus();
     }
 }
 
 function surrender() {
-    var bet = document.querySelector('#total-bet');
-
-    statusMessage = `You Gave Up! You Lose ${bet.value / 2}$`;
-    totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) / 2;
+    printStatus(STATUS.SURRENDER);
     gameStatus();
 }
 
@@ -127,7 +139,7 @@ function newGame() {
     document.querySelector('.dealerhand-cards').innerHTML = '';
     document.querySelector('.playerhand-cards').innerHTML = '';
 
-    var dealBtn = document.querySelector('#deal-btn');
+    let dealBtn = document.querySelector('#deal-btn');
     dealBtn.classList.remove('hidden');
 
     dealPlayersCards();
@@ -135,8 +147,8 @@ function newGame() {
 }
 
 function getTotalScore(cardsArray) {
-    var totalScore = 0
-    for (var i = 0; i < cardsArray.length; i++) {
+    let totalScore = 0
+    for (let i = 0; i < cardsArray.length; i++) {
         totalScore += cardsArray[i].score;
     }
     return totalScore;
@@ -163,7 +175,7 @@ function dealPlayersCards() {
 }
 
 function printDealerCards(dealer) {
-    var dealerHandFirstCardEl = document.createElement('img');
+    let dealerHandFirstCardEl = document.createElement('img');
     dealerHandFirstCardEl.src = `./imgs/cards/${dealer[0].name}.png`;
     document.querySelector('#dealer-side').appendChild(dealerHandFirstCardEl);
 
@@ -178,7 +190,7 @@ function printDealerCards(dealer) {
 
 function printPlayerCards(player) {
     player.forEach(card => {
-        var playerHandCardEl = document.createElement('img');
+        let playerHandCardEl = document.createElement('img');
         playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
 
         document.querySelector('#player-side').appendChild(playerHandCardEl);
@@ -192,19 +204,19 @@ function gameStatus() {
     document.querySelector('#dealer-side').innerHTML = '';
     document.querySelector('#player-side').innerHTML = '';
 
-    var dealBtn = document.querySelector('#deal-btn');
+    let dealBtn = document.querySelector('#deal-btn');
     dealBtn.classList.add('hidden');
 
-    var hitBtn = document.querySelector('#hit-btn');
+    let hitBtn = document.querySelector('#hit-btn');
     hitBtn.classList.add('hidden');
 
-    var standBtn = document.querySelector('#stand-btn');
+    let standBtn = document.querySelector('#stand-btn');
     standBtn.classList.add('hidden');
 
-    var doubleBtn = document.querySelector('#double-btn');
+    let doubleBtn = document.querySelector('#double-btn');
     doubleBtn.classList.add('hidden');
 
-    var surrenderBtn = document.querySelector('#surrender-btn');
+    let surrenderBtn = document.querySelector('#surrender-btn');
     surrenderBtn.classList.add('hidden');
 
     document.querySelector('#status-message').innerHTML = statusMessage;
@@ -212,7 +224,7 @@ function gameStatus() {
     document.querySelector('#dealer-text').innerHTML = `Dealer Cards Score: ${getTotalScore(dealerHand)}`;
 
     dealerHand.forEach(card => {
-        var dealerHandCardEl = document.createElement('img');
+        let dealerHandCardEl = document.createElement('img');
         dealerHandCardEl.src = `./imgs/cards/${card.name}.png`;
         dealerHandCardEl.classList.add('status-cards-imgs');
 
@@ -222,7 +234,7 @@ function gameStatus() {
     document.querySelector('#player-text').innerHTML = `Your Cards Score: ${getTotalScore(playerHand)}`;
 
     playerHand.forEach(card => {
-        var playerHandCardEl = document.createElement('img');
+        let playerHandCardEl = document.createElement('img');
         playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
         playerHandCardEl.classList.add('status-cards-imgs');
 
@@ -231,17 +243,19 @@ function gameStatus() {
 }
 
 function playerGetBlackJack() {
-    var bet = document.querySelector('#total-bet');
 
-    if (getTotalScore(playerHand) == 21 && getTotalScore(dealerHand) !== 21) {
-        statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
-        totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+    let playerTotalScore = getTotalScore(playerHand);
+    let dealerTotalScore = getTotalScore(dealerHand);
+
+    if (playerTotalScore == 21 && dealerTotalScore !== 21) {
+        printStatus(STATUS.WIN);
         gameStatus();
     }
-    else if (getTotalScore(playerHand) == 21 && getTotalScore(dealerHand) == 21) {
-        statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
+    else if (playerTotalScore == 21 && dealerTotalScore == 21) {
+        printStatus(STATUS.DRAW);
         gameStatus();
     }
+    // gameStatus(); <-- აქ რომ გამომაქვს მერე პოპაფ ფანჯარაში სტატუსმესიჯს აღარ მიწერს
 }
 
 function dealCards() {
@@ -263,25 +277,25 @@ function dealCards() {
     }
 
     if ((dealerHand[0].name !== 'AC' || dealerHand[0].name !== 'AH' || dealerHand[0].name !== 'AD' || dealerHand[0].name !== 'AS') && getTotalScore(playerHand) !== 21) {
-        var dealBtn = document.querySelector('#deal-btn');
+        let dealBtn = document.querySelector('#deal-btn');
         dealBtn.classList.add('hidden');
 
-        var hitBtn = document.querySelector('#hit-btn');
+        let hitBtn = document.querySelector('#hit-btn');
         hitBtn.classList.remove('hidden');
 
-        var standBtn = document.querySelector('#stand-btn');
+        let standBtn = document.querySelector('#stand-btn');
         standBtn.classList.remove('hidden');
 
-        var doubleBtn = document.querySelector('#double-btn');
+        let doubleBtn = document.querySelector('#double-btn');
         doubleBtn.classList.remove('hidden');
 
-        var surrenderBtn = document.querySelector('#surrender-btn');
+        let surrenderBtn = document.querySelector('#surrender-btn');
         surrenderBtn.classList.remove('hidden');
     }
 }
 
 function backgroundColorChange() {
-    var resultWindowEl = document.getElementById("result-window");
+    let resultWindowEl = document.getElementById("result-window");
     resultWindowEl.style.beckground = "red";
 }
 
