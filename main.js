@@ -1,7 +1,9 @@
 'use strict'
 // { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
-// todo
+// const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }];
+
+
 const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
 { name: '2D', score: 2 }, { name: '3D', score: 3 }, { name: '4D', score: 4 }, { name: '5D', score: 5 }, { name: '6D', score: 6 }, { name: '7D', score: 7 }, { name: '8D', score: 8 }, { name: '9D', score: 9 }, { name: '10D', score: 10 }, { name: 'JD', score: 10 }, { name: 'QD', score: 10 }, { name: 'KD', score: 10 }, { name: 'AD', score: 11 },
 { name: '2H', score: 2 }, { name: '3H', score: 3 }, { name: '4H', score: 4 }, { name: '5H', score: 5 }, { name: '6H', score: 6 }, { name: '7H', score: 7 }, { name: '8H', score: 8 }, { name: '9H', score: 9 }, { name: '10H', score: 10 }, { name: 'JH', score: 10 }, { name: 'QH', score: 10 }, { name: 'KH', score: 10 }, { name: 'AH', score: 11 },
@@ -21,34 +23,41 @@ const STATUS = {
 
 function printStatus(statusCode) {
     if (!statusCode) {
-        throw new Error(""); // todo
+        throw new Error("Status Code Not Passed!"); // todo
     }
 
-    var bet = document.querySelector('#total-bet');
+    let bet;
+    var totalBet = document.querySelector('#total-bet');
 
     switch (statusCode) {
         case STATUS.WIN: // win
-            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 1.5}$!`;
-            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 1.5;
+            bet = parseFloat(totalBet.value) * 1.5;
+            statusMessage = `Congratulation! You Win🥳 Your Win Is ${bet}💰!`;
+            totalWin.value = parseFloat(totalWin.value) + bet;
             break;
         case STATUS.LOSE: // lose
-            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value} $!`;
-            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+            bet = parseFloat(totalBet.value);
+            statusMessage = `You Lose The Game😬 Your Lose Is ${bet}💰!`;
+            totalWin.value = parseFloat(totalWin.value) - bet;
             break;
         case STATUS.DRAW: //draw
-            statusMessage = `Draw! You Get Back Your Bet: ${bet.value}$!`;
+            bet = parseFloat(totalBet.value)
+            statusMessage = `Draw🤝 You Get Back Your Bet: ${bet}💰!`;
             break;
         case STATUS.SURRENDER: //surrender
-            statusMessage = `You Gave Up! You Lose ${bet.value / 2}$`;
-            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) / 2;
+            bet = parseFloat(totalBet.value) / 2;
+            statusMessage = `You Gave Up😕 You Lose ${bet}💰`;
+            totalWin.value = parseFloat(totalWin.value) - bet;
             break;
         case STATUS.STANDWIN:
-            statusMessage = `Congratulation! You Win! Your Win Is ${bet.value * 2}$!`;
-            totalWin.value = parseFloat(totalWin.value) + parseFloat(bet.value) * 2;
+            bet = parseFloat(totalBet.value) * 2;
+            statusMessage = `Congratulation🥳 You Win! Your Win Is ${bet}💰!`;
+            totalWin.value = parseFloat(totalWin.value) + bet;
             break;
         case STATUS.STANDLOSE:
-            statusMessage = `You Lose The Game :( Your Lose Is ${bet.value * 2} $!`;
-            totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value) * 2;
+            bet = parseFloat(totalBet.value) * 2;
+            statusMessage = `You Lose The Game😬 Your Lose Is ${bet}💰!`;
+            totalWin.value = parseFloat(totalWin.value) - bet;
             break;
         default:
             statusMessage = 'Incorrect Status Code! Please Check "printStatus Function"!'   // todo
@@ -81,6 +90,7 @@ function doubleBet() {
             printStatus(STATUS.DRAW);
         }
     }
+    getResultWindowImg()
     gameStatus();
 }
 
@@ -93,12 +103,13 @@ function stand() {
 
     if (dealerTotalScore > 21) {
         printStatus(STATUS.WIN);
+        getResultWindowImg()
         gameStatus();
     }
 
     if (dealerTotalScore >= 17 && dealerTotalScore < 21) {
 
-        var playerTotalScore = getTotalScore(playerHand);
+        let playerTotalScore = getTotalScore(playerHand);
 
         if (dealerTotalScore > playerTotalScore) {
             printStatus(STATUS.STANDLOSE);
@@ -109,6 +120,7 @@ function stand() {
         else {
             printStatus(STATUS.DRAW);
         }
+        getResultWindowImg()
         gameStatus();
     }
 }
@@ -122,12 +134,14 @@ function hit() {
 
     if (playerTotalScore > 21) {
         printStatus(STATUS.LOSE);
+        getResultWindowImg()
         gameStatus();
     }
 }
 
 function surrender() {
     printStatus(STATUS.SURRENDER);
+    getResultWindowImg()
     gameStatus();
 }
 
@@ -144,57 +158,6 @@ function newGame() {
 
     dealPlayersCards();
     statusMessage = '';
-}
-
-function getTotalScore(cardsArray) {
-    let totalScore = 0
-    for (let i = 0; i < cardsArray.length; i++) {
-        totalScore += cardsArray[i].score;
-    }
-    return totalScore;
-}
-
-function randomCard(gamerCards) {
-    let cardIndex = Math.floor(CARDS.length * Math.random());
-
-    let card = CARDS[cardIndex];
-    let cardExists = gamerCards.some(t => t.name === card.name);
-
-    while (cardExists) {
-        cardIndex = Math.floor(CARDS.length * Math.random());
-        card = CARDS[cardIndex];
-        cardExists = gamerCards.some(t => t.name === card.name);
-    }
-
-    return card;
-}
-
-function dealPlayersCards() {
-    playerHand = [randomCard(playerHand), randomCard(playerHand)];
-    dealerHand = [randomCard(dealerHand), randomCard(dealerHand)];
-}
-
-function printDealerCards(dealer) {
-    let dealerHandFirstCardEl = document.createElement('img');
-    dealerHandFirstCardEl.src = `./imgs/cards/${dealer[0].name}.png`;
-    document.querySelector('#dealer-side').appendChild(dealerHandFirstCardEl);
-
-    for (let i = 1; i < dealer.length; ++i) {
-        var dealerHandCardEl = document.createElement('img');
-        dealerHandCardEl.src = `./imgs/cards/red_back.png`;
-
-        document.querySelector('#dealer-side').appendChild(dealerHandCardEl);
-    }
-
-}
-
-function printPlayerCards(player) {
-    player.forEach(card => {
-        let playerHandCardEl = document.createElement('img');
-        playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
-
-        document.querySelector('#player-side').appendChild(playerHandCardEl);
-    })
 }
 
 function gameStatus() {
@@ -249,14 +212,68 @@ function playerGetBlackJack() {
 
     if (playerTotalScore == 21 && dealerTotalScore !== 21) {
         printStatus(STATUS.WIN);
+        getResultWindowImg()
         gameStatus();
     }
     else if (playerTotalScore == 21 && dealerTotalScore == 21) {
         printStatus(STATUS.DRAW);
+        getResultWindowImg()
         gameStatus();
     }
     // gameStatus(); <-- აქ რომ გამომაქვს მერე პოპაფ ფანჯარაში სტატუსმესიჯს აღარ მიწერს
 }
+
+function getTotalScore(cardsArray) {
+    let totalScore = 0
+    for (let i = 0; i < cardsArray.length; i++) {
+        totalScore += cardsArray[i].score;
+    }
+    return totalScore;
+}
+
+function randomCard(gamerCards) {
+    let cardIndex = Math.floor(CARDS.length * Math.random());
+
+    let card = CARDS[cardIndex];
+    let cardExists = gamerCards.some(t => t.name === card.name);
+
+    while (cardExists) {
+        cardIndex = Math.floor(CARDS.length * Math.random());
+        card = CARDS[cardIndex];
+        cardExists = gamerCards.some(t => t.name === card.name);
+    }
+
+    return card;
+}
+
+function dealPlayersCards() {
+    playerHand = [randomCard(playerHand), randomCard(playerHand)];
+    dealerHand = [randomCard(dealerHand), randomCard(dealerHand)];
+}
+
+function printDealerCards(dealer) {
+    let dealerHandFirstCardEl = document.createElement('img');
+    dealerHandFirstCardEl.src = `./imgs/cards/${dealer[0].name}.png`;
+    document.querySelector('#dealer-side').appendChild(dealerHandFirstCardEl);
+
+    for (let i = 1; i < dealer.length; ++i) {
+        var dealerHandCardEl = document.createElement('img');
+        dealerHandCardEl.src = `./imgs/cards/red_back.png`;
+
+        document.querySelector('#dealer-side').appendChild(dealerHandCardEl);
+    }
+
+}
+
+function printPlayerCards(player) {
+    player.forEach(card => {
+        let playerHandCardEl = document.createElement('img');
+        playerHandCardEl.src = `./imgs/cards/${card.name}.png`;
+
+        document.querySelector('#player-side').appendChild(playerHandCardEl);
+    })
+}
+
 
 function dealCards() {
     var bet = document.querySelector('#total-bet');
@@ -271,8 +288,8 @@ function dealCards() {
     playerGetBlackJack();
 
     if (getTotalScore(playerHand) > 21) {
-        statusMessage = `You Lose The Game :( Your lose is ${bet.value} $!`;
-        totalWin.value = parseFloat(totalWin.value) - parseFloat(bet.value);
+        printStatus(STATUS.LOSE);
+        getResultWindowImg()
         gameStatus();
     }
 
@@ -294,9 +311,26 @@ function dealCards() {
     }
 }
 
-function backgroundColorChange() {
+function getResultWindowImg() {
     let resultWindowEl = document.getElementById("result-window");
-    resultWindowEl.style.beckground = "red";
+
+    if (statusMessage.includes('Win')) {
+
+        resultWindowEl.className = 'win';
+
+    } else if (statusMessage.includes('Lose The Game')) {
+
+        resultWindowEl.className = 'lose';
+
+    } else if (statusMessage.includes('Draw')) {
+
+        resultWindowEl.className = 'draw';
+
+    } else if (statusMessage.includes('Gave Up')) {
+
+        resultWindowEl.className = 'gave-up';
+
+    } else { resultWindowEl.style.background = '#f3f3f3' }
 }
 
 // '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '10D', 'JD', 'QD', 'KD', 'AD',

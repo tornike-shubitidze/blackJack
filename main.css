@@ -104,12 +104,12 @@ h2 {
   height: 100%;
   width: 40%;
   margin: auto;
-  background: url(./imgs/unsplash-2.jfif) no-repeat center;
+  /* background: url(./imgs/unsplash-2.jfif) no-repeat center; */
   background-size: cover;
   border-radius: 5%;
   margin-top: 1%;
   /* color: rgb(226, 43, 58); */
-  color: blueviolet;
+  /* color: blueviolet; */
 }
 
 .status-cards-imgs {
@@ -123,13 +123,36 @@ h2 {
   margin: auto;
   border-radius: 15px;
   border: hidden;
-  background: blueviolet;
-  color: #f4f4f4;
+  background:  rgb(226, 43, 58);
+  color: yellow;
   margin: 40px 0px;
   cursor: pointer;
 }
 
 #start-game:hover {
-  color: greenyellow;
-  background: rgb(96, 3, 182);
+  /* color: greenyellow;
+  background: rgb(96, 3, 182); */  
+  background: black;
+}
+
+.win {
+  background: url(./imgs/unsplash-2.jfif) no-repeat center;
+  color: rgb(226, 43, 58)
+}
+
+.lose {
+  background:url(/imgs/unsplash-4.jpg) no-repeat center;
+  /* color: rgb(226, 43, 58) */
+  color: yellow ;
+  
+}
+
+.draw {
+  background: url(/imgs/unsplash-handshake.jpg) no-repeat center;
+  color:  rgb(226, 43, 58)
+}
+
+.gave-up {
+  background: url(/imgs/giveUp-down.jpg) no-repeat center;
+  color: yellow ;
 }
