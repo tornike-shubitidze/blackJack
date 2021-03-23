@@ -1,15 +1,14 @@
 'use strict'
 // { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
-// const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }];
-
-
+const USERS_KEY = 'users';
 const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
 { name: '2D', score: 2 }, { name: '3D', score: 3 }, { name: '4D', score: 4 }, { name: '5D', score: 5 }, { name: '6D', score: 6 }, { name: '7D', score: 7 }, { name: '8D', score: 8 }, { name: '9D', score: 9 }, { name: '10D', score: 10 }, { name: 'JD', score: 10 }, { name: 'QD', score: 10 }, { name: 'KD', score: 10 }, { name: 'AD', score: 11 },
 { name: '2H', score: 2 }, { name: '3H', score: 3 }, { name: '4H', score: 4 }, { name: '5H', score: 5 }, { name: '6H', score: 6 }, { name: '7H', score: 7 }, { name: '8H', score: 8 }, { name: '9H', score: 9 }, { name: '10H', score: 10 }, { name: 'JH', score: 10 }, { name: 'QH', score: 10 }, { name: 'KH', score: 10 }, { name: 'AH', score: 11 },
 { name: '2S', score: 2 }, { name: '3S', score: 3 }, { name: '4S', score: 4 }, { name: '5S', score: 5 }, { name: '6S', score: 6 }, { name: '7S', score: 7 }, { name: '8S', score: 8 }, { name: '9S', score: 9 }, { name: '10S', score: 10 }, { name: 'JS', score: 10 }, { name: 'QS', score: 10 }, { name: 'KS', score: 10 }, { name: 'AS', score: 11 }]
 var playerHand = [];
 var dealerHand = [];
+// var users = [];
 var statusMessage = '';
 var totalWin = document.querySelector('#total-win');
 const STATUS = {
@@ -63,13 +62,15 @@ function printStatus(statusCode) {
             statusMessage = 'Incorrect Status Code! Please Check "printStatus Function"!'   // todo
             break;
     }
+
+    printImageByGameStatus(statusCode);
 }
 
 function doubleBet() {
     let bet = document.querySelector('#total-bet');
     bet.value = parseFloat(bet.value) * 2;
 
-    playerHand.push(randomCard(playerHand));
+    playerHand.push(getRandomCard(playerHand));
 
     document.querySelector('#player-side').innerHTML = '';
 
@@ -90,12 +91,11 @@ function doubleBet() {
             printStatus(STATUS.DRAW);
         }
     }
-    getResultWindowImg()
     gameStatus();
 }
 
 function stand() {
-    dealerHand.push(randomCard(dealerHand));
+    dealerHand.push(getRandomCard(dealerHand));
     document.querySelector('#dealer-side').innerHTML = '';
     printDealerCards(dealerHand);
 
@@ -103,7 +103,6 @@ function stand() {
 
     if (dealerTotalScore > 21) {
         printStatus(STATUS.WIN);
-        getResultWindowImg()
         gameStatus();
     }
 
@@ -120,13 +119,12 @@ function stand() {
         else {
             printStatus(STATUS.DRAW);
         }
-        getResultWindowImg()
         gameStatus();
     }
 }
 
 function hit() {
-    playerHand.push(randomCard(playerHand));
+    playerHand.push(getRandomCard(playerHand));
     document.querySelector('#player-side').innerHTML = '';
     printPlayerCards(playerHand);
 
@@ -134,18 +132,18 @@ function hit() {
 
     if (playerTotalScore > 21) {
         printStatus(STATUS.LOSE);
-        getResultWindowImg()
         gameStatus();
     }
 }
 
 function surrender() {
     printStatus(STATUS.SURRENDER);
-    getResultWindowImg()
     gameStatus();
 }
 
 function newGame() {
+    playerHand = [];
+    dealerHand = [];
 
     document.querySelector('#result-window').classList.add('hidden');
     document.querySelector('#total-bet').value = 0;
@@ -156,16 +154,15 @@ function newGame() {
     let dealBtn = document.querySelector('#deal-btn');
     dealBtn.classList.remove('hidden');
 
-    dealPlayersCards();
     statusMessage = '';
 }
 
 function gameStatus() {
 
-    document.querySelector('#result-window').classList.remove('hidden');
-
     document.querySelector('#dealer-side').innerHTML = '';
     document.querySelector('#player-side').innerHTML = '';
+
+    document.querySelector('#result-window').classList.remove('hidden');
 
     let dealBtn = document.querySelector('#deal-btn');
     dealBtn.classList.add('hidden');
@@ -212,15 +209,12 @@ function playerGetBlackJack() {
 
     if (playerTotalScore == 21 && dealerTotalScore !== 21) {
         printStatus(STATUS.WIN);
-        getResultWindowImg()
         gameStatus();
     }
     else if (playerTotalScore == 21 && dealerTotalScore == 21) {
         printStatus(STATUS.DRAW);
-        getResultWindowImg()
         gameStatus();
     }
-    // gameStatus(); <-- აქ რომ გამომაქვს მერე პოპაფ ფანჯარაში სტატუსმესიჯს აღარ მიწერს
 }
 
 function getTotalScore(cardsArray) {
@@ -231,24 +225,28 @@ function getTotalScore(cardsArray) {
     return totalScore;
 }
 
-function randomCard(gamerCards) {
+function getRandomCard() {
     let cardIndex = Math.floor(CARDS.length * Math.random());
 
     let card = CARDS[cardIndex];
-    let cardExists = gamerCards.some(t => t.name === card.name);
+    let cardExists = playerHand.some(t => t.name === card.name) || dealerHand.some(t => t.name === card.name);
 
     while (cardExists) {
         cardIndex = Math.floor(CARDS.length * Math.random());
         card = CARDS[cardIndex];
-        cardExists = gamerCards.some(t => t.name === card.name);
+        cardExists = playerHand.some(t => t.name === card.name) || dealerHand.some(t => t.name === card.name);
     }
 
     return card;
 }
 
 function dealPlayersCards() {
-    playerHand = [randomCard(playerHand), randomCard(playerHand)];
-    dealerHand = [randomCard(dealerHand), randomCard(dealerHand)];
+
+    playerHand.push(getRandomCard());
+    playerHand.push(getRandomCard());
+
+    dealerHand.push(getRandomCard());
+    dealerHand.push(getRandomCard());
 }
 
 function printDealerCards(dealer) {
@@ -279,7 +277,7 @@ function dealCards() {
     var bet = document.querySelector('#total-bet');
 
     if (bet.value == 0 || bet.value == '' || isNaN(parseFloat(bet.value))) {
-        return alert('Please Make Your Bet :)')
+        return alert('Please Make Your Bet 🙂')
     }
 
     dealPlayersCards();
@@ -289,7 +287,6 @@ function dealCards() {
 
     if (getTotalScore(playerHand) > 21) {
         printStatus(STATUS.LOSE);
-        getResultWindowImg()
         gameStatus();
     }
 
@@ -311,31 +308,171 @@ function dealCards() {
     }
 }
 
-function getResultWindowImg() {
-    let resultWindowEl = document.getElementById("result-window");
+function printImageByGameStatus(statusCode) {
+    let resultWindowEl = document.querySelector("#result-window");
 
-    if (statusMessage.includes('Win')) {
-
-        resultWindowEl.className = 'win';
-
-    } else if (statusMessage.includes('Lose The Game')) {
-
-        resultWindowEl.className = 'lose';
-
-    } else if (statusMessage.includes('Draw')) {
-
-        resultWindowEl.className = 'draw';
-
-    } else if (statusMessage.includes('Gave Up')) {
-
-        resultWindowEl.className = 'gave-up';
-
-    } else { resultWindowEl.style.background = '#f3f3f3' }
+    switch (statusCode) {
+        case STATUS.WIN:   // win
+            resultWindowEl.className = 'win animate';
+            break;
+        case STATUS.STANDWIN:   // win
+            resultWindowEl.className = 'win animate';
+            break;
+        case STATUS.LOSE: // lose
+            resultWindowEl.className = 'lose animate';
+            break;
+        case STATUS.STANDLOSE:   // lose
+            resultWindowEl.className = 'lose animate';
+            break;
+        case STATUS.DRAW: //draw
+            resultWindowEl.className = 'draw animate';
+            break;
+        case STATUS.SURRENDER: //surrender
+            resultWindowEl.className = 'gave-up animate';
+            break;
+        default:
+            resultWindowEl.style.backgroundColor = '#f3f3f3';
+            break;
+    }
 }
 
-// '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '10D', 'JD', 'QD', 'KD', 'AD',
-// '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', '10H', 'JH', 'QH', 'KH', 'AH',
-// '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', 'AS'];
+// Login & registration form
 
-// ერორები: 
+
+function showRegistrationForm() {
+    let loginFormEl = document.querySelector('#login-form');
+    let regFormEl = document.querySelector('#registration-form');
+
+    loginFormEl.classList.add('hidden');
+    regFormEl.classList.remove('hidden');
+}
+
+function showLoginForm() {
+    let loginFormEl = document.querySelector('#login-form');
+    let regFormEl = document.querySelector('#registration-form');
+
+    loginFormEl.classList.remove('hidden');
+    regFormEl.classList.add('hidden');
+}
+
+function userRegistration() {
+
+    let regEmailEl = document.querySelector('#email');
+    let regUserEl = document.querySelector('#reg-username');
+    let regPswEl = document.querySelector('#psw');
+    let regRptPswEl = document.querySelector('#psw-repeat');
+    let regBirthDateEl = document.querySelector('#birthday');
+    let regMaleEl = document.querySelector('#male');
+    let regFemaleEl = document.querySelector('#female');
+
+    let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+
+    if (usersData === null) {
+        usersData = []
+    }
+
+    let psw_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/;  // (?=.*?[#?!@$%^&*-]) <-- ეს უნდა ჩაემატოს თუ სიმბოლოებიანი პაროლი გვინდა
+    let letters = /^[A-Za-z]+$/;
+    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+
+    let checkUserName = usersData.some(x => x.username == regUserEl.value);
+    let checkUserEmail = usersData.some(x => x.email == regEmailEl.value);
+
+    if (regUserEl.value == '') {
+        alert('Please enter Username');
+    }
+    else if (checkUserName) {
+        alert('This Username Already Exists');
+    }
+    else if (!letters.test(regUserEl.value)) {
+        alert('Username field required only alphabet characters');
+    }
+    else if (regEmailEl.value == '') {
+        alert('Please enter your email ');
+    }
+    else if (checkUserEmail) {
+        alert('This Email Already Used');
+    }
+    else if (!filter.test(regEmailEl.value)) {
+        alert('Invalid email');
+    } else if (regPswEl.value == '' || regPswEl.value.length < 6 || regPswEl.value.length > 12) {
+        alert('Password Not Entered Or Password Length Is Less Than 6 Or Greater 12');
+    }
+    else if (regRptPswEl.value == '') {
+        alert('Enter Confirm Password');
+    }
+    else if (!psw_expression.test(regRptPswEl.value)) {
+        alert('Upper case, Lower case and Numeric letter are required in Password filed');
+    }
+    else if (regPswEl.value != regRptPswEl.value) {
+        alert('Password not Matched');
+    }
+    else if (regBirthDateEl.value == '') {
+        alert('Please Enter Your Birth Date');
+    }
+    else if (!regMaleEl.checked && !regFemaleEl.checked) {
+        alert('Please Check Your Gender');
+    }
+    else {
+        usersData.push({
+            email: regEmailEl.value,
+            username: regUserEl.value,
+            password: regPswEl.value,
+            birthday: regBirthDateEl.value,
+            gender: regMaleEl.checked ? regMaleEl.value : regFemaleEl.value
+        })
+
+        localStorage.setItem(USERS_KEY, JSON.stringify(usersData));
+        showLoginForm();
+        clearRegistration();
+    }
+}
+
+function clearRegistration() {
+    let regEmailEl = document.querySelector('#email');
+    let regUserEl = document.querySelector('#reg-username');
+    let regPswEl = document.querySelector('#psw');
+    let regRptPswEl = document.querySelector('#psw-repeat');
+    let regBirthDateEl = document.querySelector('#birthday');
+
+    regEmailEl.value = '';
+    regUserEl.value = '';
+    regPswEl.value = '';
+    regRptPswEl.value = '';
+    regBirthDateEl.value = '';
+}
+
+function login() {
+
+    let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+
+    let loginUsername = document.querySelector('#login-username');
+    let loginPassword = document.querySelector('#login-psw');
+    let checkUser = usersData.some(x => x.username == loginUsername.value);
+
+    if (!checkUser) {
+        return alert('Incorrect Username')
+    } else {
+        let userIndex = usersData.findIndex(user => user.username === loginUsername.value);
+
+        if (usersData[userIndex].password === loginPassword.value) {
+
+            let modalEl = document.querySelector('.modal');
+            modalEl.style.display = 'none';
+        } else {
+            return alert('Incorrect Password')
+        };
+    }
+}
+
+function showModal() {
+    let modalEl = document.querySelector('.modal');
+    modalEl.style.display = 'block';
+}
+
+
+window.onload = showModal();
+
+
 

@@ -5,6 +5,7 @@
 }
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
   background: url(./imgs/1.jpg) no-repeat;
   background-position: center/center;
   background-size: cover;
@@ -16,8 +17,11 @@ body {
 }
 
 .footer {
-  bottom: 45%;
+  /* bottom: 45%;
   left: 70%;
+  position: fixed; */
+  bottom: 1%;
+  left: 43%;
   position: fixed;
 }
 
@@ -86,6 +90,7 @@ img {
 #dealer-side img {
   margin: -3.5%;
   margin-top: 0px;
+  margin-bottom: 0px;
   height: 100%;
 }
 
@@ -123,7 +128,7 @@ h2 {
   margin: auto;
   border-radius: 15px;
   border: hidden;
-  background:  rgb(226, 43, 58);
+  background: rgb(226, 43, 58);
   color: yellow;
   margin: 40px 0px;
   cursor: pointer;
@@ -131,28 +136,118 @@ h2 {
 
 #start-game:hover {
   /* color: greenyellow;
-  background: rgb(96, 3, 182); */  
+  background: rgb(96, 3, 182); */
   background: black;
 }
 
 .win {
   background: url(./imgs/unsplash-2.jfif) no-repeat center;
-  color: rgb(226, 43, 58)
+  color: rgb(226, 43, 58);
 }
 
 .lose {
-  background:url(/imgs/unsplash-4.jpg) no-repeat center;
+  background: url(/imgs/unsplash-4.jpg) no-repeat center;
   /* color: rgb(226, 43, 58) */
-  color: yellow ;
-  
+  color: yellow;
 }
 
 .draw {
   background: url(/imgs/unsplash-handshake.jpg) no-repeat center;
-  color:  rgb(226, 43, 58)
+  color: rgb(226, 43, 58);
 }
 
 .gave-up {
   background: url(/imgs/giveUp-down.jpg) no-repeat center;
-  color: yellow ;
+  color: yellow;
+}
+
+/* Login & resgistration Form */
+input[type="text"],
+input[type="password"],
+#email,
+#psw,
+#psw-repeat {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+.login-buttons {
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.login-buttons:hover {
+  opacity: 0.8;
+}
+
+.container {
+  padding: 16px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  padding-top: 6%;
+}
+
+.modal-login,
+.modal-registration {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #f1f1f1;
+  width: 25%; /* Could be more or less, depending on screen size */
+  border-radius: 15px;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.4s;
+  animation: animatezoom 0.4s;
+}
+
+@-webkit-keyframes animatezoom {
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes animatezoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+#birthday {
+  border-radius: 15px;
+  border: 1px solid;
+  padding: 1%;
+  text-align: center;
+}
+
+#login-text {
+  padding-left: 16px;
 }

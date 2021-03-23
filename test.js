@@ -4,24 +4,27 @@ const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C',
 var playerHand = [];
 var dealerHand = [];
 
-function randomCard(gamerCards) {
+function getRandomCard(gamerCards) {
     let cardIndex = Math.floor(CARDS.length * Math.random());
 
     let card = CARDS[cardIndex];
-    let cardExists = gamerCards.some(t => t.name === card.name);
+    let cardExists = playerHand.some(t => t.name === card.name) || dealerHand.some(t => t.name === card.name);
 
     while (cardExists) {
         cardIndex = Math.floor(CARDS.length * Math.random());
         card = CARDS[cardIndex];
-        cardExists = gamerCards.some(t => t.name === card.name);
+        cardExists = playerHand.some(t => t.name === card.name) || dealerHand.some(t => t.name === card.name);
     }
 
     return card;
 }
 
 function dealPlayersCards() {
-    playerHand = [randomCard(playerHand), randomCard(playerHand)];
-    dealerHand = [randomCard(dealerHand), randomCard(dealerHand)];
+    playerHand.push(getRandomCard(playerHand));
+    playerHand.push(getRandomCard(playerHand));
+
+    dealerHand.push(getRandomCard(dealerHand));
+    dealerHand.push(getRandomCard(dealerHand));
 }
 
 

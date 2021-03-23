@@ -11,8 +11,8 @@
 
 <body>
     <div id="beting">
-        <input id="total-bet" type="text" placeholder="Your Bet" />
-        <input id="total-win" type="text" placeholder="Your Win" readonly value="0" />
+        <input id="total-bet" placeholder="Your Bet" />
+        <input id="total-win" placeholder="Your Win" readonly value="0" />
     </div>
 
     <div id="result-window" class='hidden'><br>
@@ -32,10 +32,66 @@
 
     </div>
 
-    <div id='dealer-side'>
-    </div><br><br><br><br>
+    <div>
+        <div id='dealer-side'>
+        </div><br>
 
-    <div id='player-side'>
+        <div id='player-side'>
+        </div>
+    </div>
+
+    <!-- registration & login Form -->
+
+    <div id="id01" class="modal">
+
+        <form id="login-form" class="modal-login animate">
+            <h1 id='login-text'>Login</h1>
+
+            <div class="container">
+                <label for="uname"><b>Username:</b></label>
+                <input type="text" placeholder="Username" name="uname" id='login-username' required>
+
+                <label for="psw"><b>Password:</b></label>
+                <input type="password" placeholder="Password" name="psw" id='login-psw' required>
+
+                <button type='button' id='login-btn' class='login-buttons' onclick="login()">Login</button>
+                <button id='login-register-btn' class='login-buttons'
+                    onclick="showRegistrationForm()">Registration</button>
+            </div>
+        </form>
+
+        <form id="registration-form" class="modal-registration animate hidden">
+
+            <div class="container">
+                <h1>Registration</h1>
+
+                <label for="email"><b>Email:</b></label>
+                <input type="email" placeholder="Email" name="email" id="email" required>
+
+                <label for="uname"><b>Username:</b></label>
+                <input type="text" placeholder="Username" name="uname" id='reg-username' required>
+
+                <label for="psw"><b>Password:</b></label>
+                <input type="password" placeholder="Password" name="psw" id="psw" required>
+
+                <label for="psw-repeat"><b>Repeat Password:</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required><br><br>
+
+                <label for="birthday">Please Select Your Birthdate:</label><br>
+                <input type="date" id="birthday" name="birthday" required><br><br>
+
+                <p>Please Select Your Gender:</p>
+                <input type="radio" id="male" name="gender" value="male" required>
+                <label for="male">Male👨</label><br>
+                <input type="radio" id="female" name="gender" value="female" required>
+                <label for="female">Female👩</label><br><br>
+
+                <button type='button' id='register-btn' class='login-buttons'
+                    onclick="userRegistration()">Register</button>
+            </div>
+
+        </form>
+
     </div>
 
     <footer class='footer'>
