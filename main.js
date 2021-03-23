@@ -8,7 +8,6 @@ const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C',
 { name: '2S', score: 2 }, { name: '3S', score: 3 }, { name: '4S', score: 4 }, { name: '5S', score: 5 }, { name: '6S', score: 6 }, { name: '7S', score: 7 }, { name: '8S', score: 8 }, { name: '9S', score: 9 }, { name: '10S', score: 10 }, { name: 'JS', score: 10 }, { name: 'QS', score: 10 }, { name: 'KS', score: 10 }, { name: 'AS', score: 11 }]
 var playerHand = [];
 var dealerHand = [];
-// var users = [];
 var statusMessage = '';
 var totalWin = document.querySelector('#total-win');
 const STATUS = {
@@ -272,7 +271,6 @@ function printPlayerCards(player) {
     })
 }
 
-
 function dealCards() {
     var bet = document.querySelector('#total-bet');
 
@@ -375,9 +373,17 @@ function userRegistration() {
     let letters = /^[A-Za-z]+$/;
     let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
+    var checkUserName;
+    var checkUserEmail;
 
-    let checkUserName = usersData.some(x => x.username == regUserEl.value);
-    let checkUserEmail = usersData.some(x => x.email == regEmailEl.value);
+    if (usersData.length == 0) {
+        checkUserName = false;
+        checkUserEmail = false;
+    } else {
+        checkUserName = usersData.some(x => x.username == regUserEl.value);
+        checkUserEmail = usersData.some(x => x.email == regEmailEl.value);
+    }
+
 
     if (regUserEl.value == '') {
         alert('Please enter Username');
