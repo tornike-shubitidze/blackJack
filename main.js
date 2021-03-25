@@ -355,13 +355,20 @@ function showLoginForm() {
 
 function userRegistration() {
 
-    let regEmailEl = document.querySelector('#email');
-    let regUserEl = document.querySelector('#reg-username');
-    let regPswEl = document.querySelector('#psw');
-    let regRptPswEl = document.querySelector('#psw-repeat');
-    let regBirthDateEl = document.querySelector('#birthday');
-    let regMaleEl = document.querySelector('#male');
-    let regFemaleEl = document.querySelector('#female');
+    let email = document.querySelector('#email');
+    let username = document.querySelector('#reg-username');
+    let password = document.querySelector('#psw');
+    let passwordRpt = document.querySelector('#psw-repeat');
+    let birthday = document.querySelector('#birthday');
+    let male = document.querySelector('#male');
+    let female = document.querySelector('#female');
+
+    let usernameMsg = document.querySelector('.user-error-message');
+    let emailMsg = document.querySelector('.email-error-message');
+    let passwordMsg = document.querySelector('.psw-error-message');
+    let passwordRptMsg = document.querySelector('.psw-repeat-error-message');
+    let birthdayMsg = document.querySelector('.birthday-error-message');
+    let genderMsg = document.querySelector('.gender-error-message');
 
     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
 
@@ -373,104 +380,151 @@ function userRegistration() {
     let letters = /^[A-Za-z]+$/;
     let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-    var checkUserName;
-    var checkUserEmail;
+    let checkUsername;
+    let checkUserEmail;
 
     if (usersData.length == 0) {
-        checkUserName = false;
+        checkUsername = false;
         checkUserEmail = false;
     } else {
-        checkUserName = usersData.some(x => x.username == regUserEl.value);
-        checkUserEmail = usersData.some(x => x.email == regEmailEl.value);
+        checkUsername = usersData.some(x => x.username == username.value);
+        checkUserEmail = usersData.some(x => x.email == email.value);
     }
 
 
-    if (regUserEl.value == '') {
-        alert('Please enter Username');
+    if (username.value == '') {
+        usernameMsg.classList.remove('hidden');
+        usernameMsg.innerHTML = 'Please Enter Your Username';
     }
-    else if (checkUserName) {
-        alert('This Username Already Exists');
+    else if (checkUsername) {
+        usernameMsg.classList.remove('hidden');
+        usernameMsg.innerHTML = 'This Username Already Exists';
     }
-    else if (!letters.test(regUserEl.value)) {
-        alert('Username field required only alphabet characters');
+    else if (!letters.test(username.value)) {
+        usernameMsg.classList.remove('hidden');
+        usernameMsg.innerHTML = 'Username Field Required Only Alphabet Characters';
     }
-    else if (regEmailEl.value == '') {
-        alert('Please enter your email ');
+    else if (email.value == '') {
+        emailMsg.classList.remove('hidden')
+        emailMsg.innerHTML = 'Please Enter Your Email';
     }
     else if (checkUserEmail) {
-        alert('This Email Already Used');
+        emailMsg.classList.remove('hidden')
+        emailMsg.innerHTML = 'This Email Already Used';
     }
-    else if (!filter.test(regEmailEl.value)) {
-        alert('Invalid email');
-    } else if (regPswEl.value == '' || regPswEl.value.length < 6 || regPswEl.value.length > 12) {
-        alert('Password Not Entered Or Password Length Is Less Than 6 Or Greater 12');
+    else if (!filter.test(email.value)) {
+        emailMsg.classList.remove('hidden');
+        emailMsg.innerHTML = 'Invalid Email';
     }
-    else if (regRptPswEl.value == '') {
-        alert('Enter Confirm Password');
+    else if (password.value == '' || password.value.length < 6 || password.value.length > 12) {
+        passwordMsg.classList.remove('hidden');
+        passwordMsg.innerHTML = 'Password Not Entered Or Password Length Is Less Than 6 Or Greater 12';
     }
-    else if (!psw_expression.test(regRptPswEl.value)) {
-        alert('Upper case, Lower case and Numeric letter are required in Password filed');
+    else if (passwordRpt.value == '') {
+        passwordRptMsg.classList.remove('hidden');
+        passwordRptMsg.innerHTML = 'Enter Confirm Password';
     }
-    else if (regPswEl.value != regRptPswEl.value) {
-        alert('Password not Matched');
+    else if (!psw_expression.test(passwordRpt.value)) {
+        passwordRptMsg.classList.remove('hidden');
+        passwordRptMsg.innerHTML = 'Upper Case, Lower Case And Numeric Letter Are Required In Password Filed';
     }
-    else if (regBirthDateEl.value == '') {
-        alert('Please Enter Your Birth Date');
+    else if (password.value != passwordRpt.value) {
+        passwordRptMsg.classList.remove('hidden');
+        passwordRptMsg.innerHTML = 'Confirm Password Not Matched';
     }
-    else if (!regMaleEl.checked && !regFemaleEl.checked) {
-        alert('Please Check Your Gender');
+    else if (birthday.value == '') {
+        birthdayMsg.classList.remove('hidden');
+        birthdayMsg.innerHTML = 'Please Enter Your Birth Date';
+    }
+    else if (!male.checked && !female.checked) {
+        genderMsg.classList.remove('hidden');
+        genderMsg.innerHTML = 'Please Check Your Gender';
     }
     else {
         usersData.push({
-            email: regEmailEl.value,
-            username: regUserEl.value,
-            password: regPswEl.value,
-            birthday: regBirthDateEl.value,
-            gender: regMaleEl.checked ? regMaleEl.value : regFemaleEl.value
+            email: email.value,
+            username: username.value,
+            password: password.value,
+            birthday: birthday.value,
+            gender: male.checked ? male.value : female.value
         })
 
         localStorage.setItem(USERS_KEY, JSON.stringify(usersData));
         showLoginForm();
         clearRegistration();
+
+        usernameMsg.classList.add('hidden');
+        emailMsg.classList.add('hidden');
+        passwordMsg.classList.add('hidden');
+        passwordRptMsg.classList.add('hidden');
+        birthdayMsg.classList.add('hidden');
+        genderMsg.classList.add('hidden');
+
     }
 }
 
 function clearRegistration() {
-    let regEmailEl = document.querySelector('#email');
-    let regUserEl = document.querySelector('#reg-username');
-    let regPswEl = document.querySelector('#psw');
-    let regRptPswEl = document.querySelector('#psw-repeat');
-    let regBirthDateEl = document.querySelector('#birthday');
-
-    regEmailEl.value = '';
-    regUserEl.value = '';
-    regPswEl.value = '';
-    regRptPswEl.value = '';
-    regBirthDateEl.value = '';
+    document.querySelector('#email').value = '';
+    document.querySelector('#reg-username').value = '';
+    document.querySelector('#psw').value = '';
+    document.querySelector('#psw-repeat').value = '';
+    document.querySelector('#birthday').value = '';
 }
+
+
+function enterKeyDown(e) {
+    console.log("ragacaa", e.key);
+    if (e.keyCode === 13) {
+    }
+}
+
+
 
 function login() {
 
     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
 
-    let loginUsername = document.querySelector('#login-username');
-    let loginPassword = document.querySelector('#login-psw');
-    let checkUser = usersData.some(x => x.username == loginUsername.value);
+    let username = document.querySelector('#login-username');
+    let password = document.querySelector('#login-psw');
 
-    if (!checkUser) {
-        return alert('Incorrect Username')
-    } else {
-        let userIndex = usersData.findIndex(user => user.username === loginUsername.value);
+    let userErrorMsg = document.querySelector('.username-error-message');
+    let passErrorMsg = document.querySelector('.password-error-message');
 
-        if (usersData[userIndex].password === loginPassword.value) {
+    let existUser = usersData.find(x => x.username === username.value);
 
-            let modalEl = document.querySelector('.modal');
-            modalEl.style.display = 'none';
-        } else {
-            return alert('Incorrect Password')
-        };
+    if (existUser == undefined) {
+        userErrorMsg.classList.remove('hidden');
+        username.style.border = '1px solid red';
+
+        passErrorMsg.classList.add('hidden');
+        password.style.border = '1px solid #ccc';
+        return;
+
+    } else if (existUser.password !== password.value) {
+
+        passErrorMsg.classList.remove('hidden');
+        password.style.border = '1px solid red';
+
+        userErrorMsg.classList.add('hidden');
+        username.style.border = '1px solid #ccc';
+
+        return;
     }
+
+    userErrorMsg.classList.add('hidden');
+    username.style.border = '1px solid #ccc';
+
+    assErrorMsg.classList.add('hidden');
+    password.style.border = '1px solid #ccc';
+
+    hideModal()
 }
+
+function hideModal() {
+    let modalEl = document.querySelector('.modal');
+    modalEl.style.display = 'none';
+}
+
 
 function showModal() {
     let modalEl = document.querySelector('.modal');
@@ -479,6 +533,8 @@ function showModal() {
 
 
 window.onload = showModal();
+
+
 
 
 

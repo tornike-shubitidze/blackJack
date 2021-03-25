@@ -49,14 +49,20 @@
 
             <div class="container">
                 <label for="uname"><b>Username:</b></label>
-                <input type="text" placeholder="Username" name="uname" id='login-username' required>
+                <input type="text" placeholder="Username" name="uname" id='login-username'
+                    onkeydown="enterKeyDown(this)" />
+                <label for="uname" class='username-error-message hidden' style="color: red; font-size: small;">incorrect
+                    username</label><br><br>
 
                 <label for="psw"><b>Password:</b></label>
-                <input type="password" placeholder="Password" name="psw" id='login-psw' required>
+                <input type="password" placeholder="Password" name="password" id='login-psw'
+                    onkeydown="enterKeyDown(this)" />
+                <label for="password" class='password-error-message hidden'
+                    style="color: red; font-size: small;">incorrect
+                    password</label><br><br>
 
                 <button type='button' id='login-btn' class='login-buttons' onclick="login()">Login</button>
-                <button id='login-register-btn' class='login-buttons'
-                    onclick="showRegistrationForm()">Registration</button>
+                <a id='login-register-btn' onclick="showRegistrationForm()">Registration</a>
             </div>
         </form>
 
@@ -67,24 +73,36 @@
 
                 <label for="email"><b>Email:</b></label>
                 <input type="email" placeholder="Email" name="email" id="email" required>
+                <label for="email" class='email-error-message hidden' style="color: red; font-size: small;">
+                </label><br><br>
 
                 <label for="uname"><b>Username:</b></label>
                 <input type="text" placeholder="Username" name="uname" id='reg-username' required>
+                <label for="uname" class='user-error-message hidden'
+                    style="color: red; font-size: small;"></label><br><br>
 
                 <label for="psw"><b>Password:</b></label>
                 <input type="password" placeholder="Password" name="psw" id="psw" required>
+                <label for="password" class='psw-error-message hidden'
+                    style="color: red; font-size: small;"></label><br><br>
 
                 <label for="psw-repeat"><b>Repeat Password:</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required><br><br>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+                <label for="psw-repeat" class='psw-repeat-error-message hidden'
+                    style="color: red; font-size: small;"></label><br><br>
 
                 <label for="birthday">Please Select Your Birthdate:</label><br>
-                <input type="date" id="birthday" name="birthday" required><br><br>
+                <input type="date" id="birthday" name="birthday" required><br>
+                <label for="birthday" class='birthday-error-message hidden'
+                    style="color: red; font-size: small;"></label><br>
 
                 <p>Please Select Your Gender:</p>
                 <input type="radio" id="male" name="gender" value="male" required>
                 <label for="male">Male👨</label><br>
                 <input type="radio" id="female" name="gender" value="female" required>
-                <label for="female">Female👩</label><br><br>
+                <label for="female">Female👩</label><br>
+                <label for="gender" class='gender-error-message hidden'
+                    style="color: red; font-size: small;"></label><br>
 
                 <button type='button' id='register-btn' class='login-buttons'
                     onclick="userRegistration()">Register</button>

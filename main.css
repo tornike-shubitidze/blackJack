@@ -251,3 +251,16 @@ input[type="password"],
 #login-text {
   padding-left: 16px;
 }
+
+#login-register-btn {
+  text-decoration: underline;
+  margin: 40%;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  color: blue;
+  cursor: pointer;
+}
+
+#login-register-btn:hover {
+  color: #3da040;
+}
