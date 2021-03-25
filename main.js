@@ -490,26 +490,48 @@ function login() {
     let userErrorMsg = document.querySelector('.username-error-message');
     let passErrorMsg = document.querySelector('.password-error-message');
 
+    if (username.value == '') {
+
+        userErrorMsg.classList.remove('hidden');
+        username.style.border = '1px solid red';
+        userErrorMsg.innerHTML = 'Please Enter Your Username'
+        return
+    }
+    else if (password.value == '') {
+
+        passErrorMsg.classList.remove('hidden');
+        password.style.border = '1px solid red';
+        passErrorMsg.innerHTML = 'Please Enter Your Password'
+
+        userErrorMsg.classList.add('hidden');
+        username.style.border = '1px solid #ccc';
+        return
+    }
+
     let existUser = usersData.find(x => x.username === username.value);
 
     if (existUser == undefined) {
         userErrorMsg.classList.remove('hidden');
         username.style.border = '1px solid red';
+        userErrorMsg.innerHTML = 'Incorrect Username'
 
         passErrorMsg.classList.add('hidden');
         password.style.border = '1px solid #ccc';
         return;
 
-    } else if (existUser.password !== password.value) {
+    }
+    else if (existUser.password !== password.value) {
 
         passErrorMsg.classList.remove('hidden');
         password.style.border = '1px solid red';
+        passErrorMsg.innerHTML = 'Incorrect Password'
 
         userErrorMsg.classList.add('hidden');
         username.style.border = '1px solid #ccc';
 
         return;
     }
+
 
     userErrorMsg.classList.add('hidden');
     username.style.border = '1px solid #ccc';
