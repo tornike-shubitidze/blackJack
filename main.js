@@ -536,7 +536,7 @@ function login() {
     userErrorMsg.classList.add('hidden');
     username.style.border = '1px solid #ccc';
 
-    assErrorMsg.classList.add('hidden');
+    passErrorMsg.classList.add('hidden');
     password.style.border = '1px solid #ccc';
 
     hideModal()

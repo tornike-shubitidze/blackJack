@@ -1,2 +1,90 @@
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 480px) {
+  body {
+    background-position: center;
+    height: 400px;
+    width: 400px;
+  }
+
+  #login-username,
+  #login-psw,
+  input[type="text"],
+  input[type="password"],
+  #email,
+  #psw,
+  #psw-repeat {
+    height: 30px;
+  }
+
+  .password-error-message,
+  .username-error-message,
+  .email-error-message,
+  .user-error-message,
+  .psw-error-message,
+  .psw-repeat-error-message,
+  .birthday-error-message,
+  .gender-error-message {
+    font-size: xx-small;
+  }
+
+  #login-register-btn {
+    margin: 30%;
+  }
+
+  .modal-login {
+    height: 320px;
+    width: 50%; /* Could be more or less, depending on screen size */
+    font-size: 14px;
+  }
+
+  .modal-registration {
+    height: 590px;
+    width: 50%;
+    font-size: 12px;
+  }
+
+  .container h1 {
+    font-size: large;
+    margin-top: 0px;
+  }
+
+  .login-buttons {
+    padding: 5px 0;
+  }
+
+  #total-bet,
+  #total-win {
+    width: 40px;
+    height: 15px;
+    font-size: xx-small;
+  }
+
+  #total-win {
+    margin-left: 1px;
+  }
+
+  #beting {
+    margin-left: 0px;
+    margin-top: 65px;
+  }
+
+  #game-buttons {
+    width: 100px;
+    text-align: center;
+  }
+
+  #deal-btn,
+  #hit-btn,
+  #stand-btn,
+  #surrender-btn,
+  #double-btn {
+  }
+
+  #result-window {
+    width: 70%;
+    font-size: small;
+  }
+
+  #start-game {
+    width: 40%;
+  }
 }
