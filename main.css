@@ -192,7 +192,7 @@ input[type="password"],
 }
 
 .container {
-  padding: 16px;
+  padding: 3%;
 }
 
 .modal {
@@ -252,15 +252,25 @@ input[type="password"],
   padding-left: 16px;
 }
 
-#login-register-btn {
+#login-register-btn,
+#register-login-btn {
   text-decoration: underline;
-  margin: 40%;
-  margin-top: 10%;
-  margin-bottom: 10%;
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
   color: blue;
   cursor: pointer;
 }
 
-#login-register-btn:hover {
+#login-register-btn:hover,
+#register-login-btn:hover {
   color: #3da040;
+}
+
+.valid {
+  border: 2px solid #44e444;
+}
+
+.invalid {
+  border: 2px solid #ff0000;
 }

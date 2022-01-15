@@ -337,224 +337,349 @@ function printImageByGameStatus(statusCode) {
 // Login & registration form
 
 
-function showRegistrationForm() {
-    let loginFormEl = document.querySelector('#login-form');
-    let regFormEl = document.querySelector('#registration-form');
+// function showRegistrationForm() {
+//     let loginFormEl = document.querySelector('#login-form');
+//     let regFormEl = document.querySelector('#registration-form');
 
-    loginFormEl.classList.add('hidden');
-    regFormEl.classList.remove('hidden');
-}
+//     loginFormEl.classList.add('hidden');
+//     regFormEl.classList.remove('hidden');
+// }
 
-function showLoginForm() {
-    let loginFormEl = document.querySelector('#login-form');
-    let regFormEl = document.querySelector('#registration-form');
+// function showLoginForm() {
+//     let loginFormEl = document.querySelector('#login-form');
+//     let regFormEl = document.querySelector('#registration-form');
 
-    loginFormEl.classList.remove('hidden');
-    regFormEl.classList.add('hidden');
-}
+//     loginFormEl.classList.remove('hidden');
+//     regFormEl.classList.add('hidden');
+// }
 
-function userRegistration() {
+// function userRegistration() {
 
-    let email = document.querySelector('#email');
-    let username = document.querySelector('#reg-username');
-    let password = document.querySelector('#psw');
-    let passwordRpt = document.querySelector('#psw-repeat');
-    let birthday = document.querySelector('#birthday');
-    let male = document.querySelector('#male');
-    let female = document.querySelector('#female');
+//     let email = document.querySelector('#email');
+//     let username = document.querySelector('#reg-username');
+//     let password = document.querySelector('#psw');
+//     let passwordRpt = document.querySelector('#psw-repeat');
+//     let birthday = document.querySelector('#birthday');
+//     let male = document.querySelector('#male');
+//     let female = document.querySelector('#female');
 
-    let usernameMsg = document.querySelector('.user-error-message');
-    let emailMsg = document.querySelector('.email-error-message');
-    let passwordMsg = document.querySelector('.psw-error-message');
-    let passwordRptMsg = document.querySelector('.psw-repeat-error-message');
-    let birthdayMsg = document.querySelector('.birthday-error-message');
-    let genderMsg = document.querySelector('.gender-error-message');
-
-    let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
-
-    if (usersData === null) {
-        usersData = []
-    }
-
-    let psw_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/;  // (?=.*?[#?!@$%^&*-]) <-- ეს უნდა ჩაემატოს თუ სიმბოლოებიანი პაროლი გვინდა
-    let letters = /^[A-Za-z]+$/;
-    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-    let checkUsername;
-    let checkUserEmail;
-
-    if (usersData.length == 0) {
-        checkUsername = false;
-        checkUserEmail = false;
-    } else {
-        checkUsername = usersData.some(x => x.username == username.value);
-        checkUserEmail = usersData.some(x => x.email == email.value);
-    }
-
-
-    if (username.value == '') {
-        usernameMsg.classList.remove('hidden');
-        usernameMsg.innerHTML = 'Please Enter Your Username';
-    }
-    else if (checkUsername) {
-        usernameMsg.classList.remove('hidden');
-        usernameMsg.innerHTML = 'This Username Already Exists';
-    }
-    else if (!letters.test(username.value)) {
-        usernameMsg.classList.remove('hidden');
-        usernameMsg.innerHTML = 'Username Field Required Only Alphabet Characters';
-    }
-    else if (email.value == '') {
-        emailMsg.classList.remove('hidden')
-        emailMsg.innerHTML = 'Please Enter Your Email';
-    }
-    else if (checkUserEmail) {
-        emailMsg.classList.remove('hidden')
-        emailMsg.innerHTML = 'This Email Already Used';
-    }
-    else if (!filter.test(email.value)) {
-        emailMsg.classList.remove('hidden');
-        emailMsg.innerHTML = 'Invalid Email';
-    }
-    else if (password.value == '' || password.value.length < 6 || password.value.length > 12) {
-        passwordMsg.classList.remove('hidden');
-        passwordMsg.innerHTML = 'Password Not Entered Or Password Length Is Less Than 6 Or Greater 12';
-    }
-    else if (passwordRpt.value == '') {
-        passwordRptMsg.classList.remove('hidden');
-        passwordRptMsg.innerHTML = 'Enter Confirm Password';
-    }
-    else if (!psw_expression.test(passwordRpt.value)) {
-        passwordRptMsg.classList.remove('hidden');
-        passwordRptMsg.innerHTML = 'Upper Case, Lower Case And Numeric Letter Are Required In Password Filed';
-    }
-    else if (password.value != passwordRpt.value) {
-        passwordRptMsg.classList.remove('hidden');
-        passwordRptMsg.innerHTML = 'Confirm Password Not Matched';
-    }
-    else if (birthday.value == '') {
-        birthdayMsg.classList.remove('hidden');
-        birthdayMsg.innerHTML = 'Please Enter Your Birth Date';
-    }
-    else if (!male.checked && !female.checked) {
-        genderMsg.classList.remove('hidden');
-        genderMsg.innerHTML = 'Please Check Your Gender';
-    }
-    else {
-        usersData.push({
-            email: email.value,
-            username: username.value,
-            password: password.value,
-            birthday: birthday.value,
-            gender: male.checked ? male.value : female.value
-        })
-
-        localStorage.setItem(USERS_KEY, JSON.stringify(usersData));
-        showLoginForm();
-        clearRegistration();
-
-        usernameMsg.classList.add('hidden');
-        emailMsg.classList.add('hidden');
-        passwordMsg.classList.add('hidden');
-        passwordRptMsg.classList.add('hidden');
-        birthdayMsg.classList.add('hidden');
-        genderMsg.classList.add('hidden');
-
-    }
-}
-
-function clearRegistration() {
-    document.querySelector('#email').value = '';
-    document.querySelector('#reg-username').value = '';
-    document.querySelector('#psw').value = '';
-    document.querySelector('#psw-repeat').value = '';
-    document.querySelector('#birthday').value = '';
-}
-
-
-function enterKeyDown(e) {
-    console.log("ragacaa", e.key);
-    if (e.keyCode === 13) {
-    }
-}
+//     let usernameMsg = document.querySelector('.user-error-message');
+//     let emailMsg = document.querySelector('.email-error-message');
+//     let passwordMsg = document.querySelector('.psw-error-message');
+//     let passwordRptMsg = document.querySelector('.psw-repeat-error-message');
+//     let birthdayMsg = document.querySelector('.birthday-error-message');
+//     let genderMsg = document.querySelector('.gender-error-message');
 
 
 
-function login() {
+//     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
 
-    let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+//     if (usersData === null) {
+//         usersData = []
+//     }
 
-    let username = document.querySelector('#login-username');
-    let password = document.querySelector('#login-psw');
+//     let psw_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/;  // (?=.*?[#?!@$%^&*-]) <-- ეს უნდა ჩაემატოს თუ სიმბოლოებიანი პაროლი გვინდა
+//     let letters = /^[A-Za-z]+$/;
+//     let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-    let userErrorMsg = document.querySelector('.username-error-message');
-    let passErrorMsg = document.querySelector('.password-error-message');
+//     let checkUsername;
+//     let checkUserEmail;
 
-    if (username.value == '') {
-
-        userErrorMsg.classList.remove('hidden');
-        username.style.border = '1px solid red';
-        userErrorMsg.innerHTML = 'Please Enter Your Username'
-        return
-    }
-    else if (password.value == '') {
-
-        passErrorMsg.classList.remove('hidden');
-        password.style.border = '1px solid red';
-        passErrorMsg.innerHTML = 'Please Enter Your Password'
-
-        userErrorMsg.classList.add('hidden');
-        username.style.border = '1px solid #ccc';
-        return
-    }
-
-    let existUser = usersData.find(x => x.username === username.value);
-
-    if (existUser == undefined) {
-        userErrorMsg.classList.remove('hidden');
-        username.style.border = '1px solid red';
-        userErrorMsg.innerHTML = 'Incorrect Username'
-
-        passErrorMsg.classList.add('hidden');
-        password.style.border = '1px solid #ccc';
-        return;
-
-    }
-    else if (existUser.password !== password.value) {
-
-        passErrorMsg.classList.remove('hidden');
-        password.style.border = '1px solid red';
-        passErrorMsg.innerHTML = 'Incorrect Password'
-
-        userErrorMsg.classList.add('hidden');
-        username.style.border = '1px solid #ccc';
-
-        return;
-    }
+//     if (usersData.length == 0) {
+//         checkUsername = false;
+//         checkUserEmail = false;
+//     } else {
+//         checkUsername = usersData.some(x => x.username == username.value);
+//         checkUserEmail = usersData.some(x => x.email == email.value);
+//     }
 
 
-    userErrorMsg.classList.add('hidden');
-    username.style.border = '1px solid #ccc';
 
-    passErrorMsg.classList.add('hidden');
-    password.style.border = '1px solid #ccc';
+//     if (email.value == '' && username.value == '' && password.value == '' && passwordRpt.value == '' && birthday.value == '' && !male.checked && !female.checked) {
+//         emailMsg.classList.remove('hidden')
+//         emailMsg.innerHTML = 'Please Enter Your Email';
 
-    hideModal()
-}
+//         usernameMsg.classList.remove('hidden');
+//         usernameMsg.innerHTML = 'Please Enter Your Username';
 
-function hideModal() {
-    let modalEl = document.querySelector('.modal');
-    modalEl.style.display = 'none';
-}
+//         passwordMsg.classList.remove('hidden');
+//         passwordMsg.innerHTML = 'Please Enter Your Password';
+
+//         passwordRptMsg.classList.remove('hidden');
+//         passwordRptMsg.innerHTML = 'Please Confirm Your Password';
+
+//         birthdayMsg.classList.remove('hidden');
+//         birthdayMsg.innerHTML = 'Please Enter Your Birth Date';
+
+//         genderMsg.classList.remove('hidden');
+//         genderMsg.innerHTML = 'Please Check Your Gender';
+
+//     }
+//     else if (email.value == '') {
+//         emailMsg.classList.remove('hidden')
+//         emailMsg.innerHTML = 'Please Enter Your Email';
+//     }
+//     else if (checkUserEmail) {
+//         emailMsg.classList.remove('hidden')
+//         emailMsg.innerHTML = 'This Email Already Used';
+//     }
+//     else if (!filter.test(email.value)) {
+//         emailMsg.classList.remove('hidden');
+//         emailMsg.innerHTML = 'Invalid Email';
+//     }
+//     else if (username.value == '') {
+//         usernameMsg.classList.remove('hidden');
+//         usernameMsg.innerHTML = 'Please Enter Your Username';
+
+//     }
+//     else if (checkUsername) {
+//         usernameMsg.classList.remove('hidden');
+//         usernameMsg.innerHTML = 'This Username Already Exists';
+
+//     }
+//     else if (!letters.test(username.value)) {
+//         usernameMsg.classList.remove('hidden');
+//         usernameMsg.innerHTML = 'Username Field Required Only Alphabet Characters';
+
+//     }
+//     else if (password.value == '' || password.value.length < 6 || password.value.length > 12) {
+//         passwordMsg.classList.remove('hidden');
+//         passwordMsg.innerHTML = 'Password Not Entered Or Password Length Is Less Than 6 Or Greater 12';
+
+//     }
+//     else if (passwordRpt.value == '') {
+//         passwordRptMsg.classList.remove('hidden');
+//         passwordRptMsg.innerHTML = 'Enter Confirm Password';
+
+//     }
+//     else if (!psw_expression.test(passwordRpt.value)) {
+//         passwordRptMsg.classList.remove('hidden');
+//         passwordRptMsg.innerHTML = 'Upper Case, Lower Case And Numeric Letter Are Required In Password Filed';
+
+//     }
+//     else if (password.value != passwordRpt.value) {
+//         passwordRptMsg.classList.remove('hidden');
+//         passwordRptMsg.innerHTML = 'Confirm Password Not Matched';
+
+//     }
+//     else if (birthday.value == '') {
+//         birthdayMsg.classList.remove('hidden');
+//         birthdayMsg.innerHTML = 'Please Enter Your Birth Date';
+
+//     }
+//     else if (!male.checked && !female.checked) {
+//         genderMsg.classList.remove('hidden');
+//         genderMsg.innerHTML = 'Please Check Your Gender';
+
+//     }
+//     else {
+//         usersData.push({
+//             email: email.value,
+//             username: username.value,
+//             password: password.value,
+//             birthday: birthday.value,
+//             gender: male.checked ? male.value : female.value
+//         })
+
+//         localStorage.setItem(USERS_KEY, JSON.stringify(usersData));
+//         showLoginForm();
+//         clearRegistration();
+
+//         usernameMsg.classList.add('hidden');
+//         emailMsg.classList.add('hidden');
+//         passwordMsg.classList.add('hidden');
+//         passwordRptMsg.classList.add('hidden');
+//         birthdayMsg.classList.add('hidden');
+//         genderMsg.classList.add('hidden');
+
+//     }
+// }
+
+// function clearRegistration() {
+//     document.querySelector('#email').value = '';
+//     document.querySelector('#reg-username').value = '';
+//     document.querySelector('#psw').value = '';
+//     document.querySelector('#psw-repeat').value = '';
+//     document.querySelector('#birthday').value = '';
+// }
 
 
-function showModal() {
-    let modalEl = document.querySelector('.modal');
-    modalEl.style.display = 'block';
-}
+// function enterKeyDown(e) {
+//     console.log("ragacaa", e.key);
+//     if (e.keyCode === 13) {
+//     }
+// }
 
 
-window.onload = showModal();
+// function checkUsername() {
+//     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+//     let username = document.querySelector('#login-username');
+
+//     let userErrorMsg = document.querySelector('.username-error-message');
+
+//     let existUser = usersData.find(x => x.username === username.value);
+
+//     if (username.value == '') {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Please Enter Your Username'
+
+//         return
+//     }
+//     else if (existUser == undefined) {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Incorrect Username'
+
+//         return;
+//     }
+//     else if (existUser) {
+//         username.style.border = '1px solid  #44e444';
+//         userErrorMsg.innerHTML = '';
+//     }
+
+// }
+
+
+// function checkPassword() {
+//     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+//     let username = document.querySelector('#login-username');
+//     let password = document.querySelector('#login-psw');
+
+//     let passErrorMsg = document.querySelector('.password-error-message');
+//     let userErrorMsg = document.querySelector('.username-error-message');
+
+//     let existUser = usersData.find(x => x.username === username.value);
+
+
+//     if (username.value == '' && password.value == '') {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Please Enter Your Username'
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Please Enter Your Password'
+
+//         return
+//     }
+//     else if (username.value == '') {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Please Enter Your Username';
+
+//         return
+//     }
+//     else if (password.value == '') {
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Please Enter Your Password'
+
+//         return
+//     }
+//     else if (existUser.password !== password.value) {
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Incorrect Password'
+
+//         return;
+//     }
+//     else if (existUser.password == password.value) {
+
+//         password.style.border = '1px solid #44e444';
+//         passErrorMsg.innerHTML = '';
+
+//         document.querySelector('#login-btn').disabled = false
+//     }
+
+
+// }
+
+
+// function login() {
+
+//     let usersData = JSON.parse(localStorage.getItem(USERS_KEY));
+
+//     let username = document.querySelector('#login-username');
+//     let password = document.querySelector('#login-psw');
+
+//     let userErrorMsg = document.querySelector('.username-error-message');
+//     let passErrorMsg = document.querySelector('.password-error-message');
+
+//     let existUser = usersData.find(x => x.username === username.value);
+
+
+//     if (username.value == '' && password.value == '') {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Please Enter Your Username'
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Please Enter Your Password'
+
+//         return
+//     }
+//     else if (username.value == '') {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Please Enter Your Username'
+
+//         return
+//     }
+//     else if (existUser == undefined) {
+
+//         username.style.border = '1px solid red';
+//         userErrorMsg.innerHTML = 'Incorrect Username'
+
+//         return;
+//     }
+//     else if (existUser) {
+//         username.style.border = '1px solid #44e444';
+//         userErrorMsg.innerHTML = '';
+
+//     }
+
+
+//     if (existUser.password == password.value) {
+
+//         password.style.border = '1px solid #44e444';
+//         passErrorMsg.innerHTML = ''
+
+//         return;
+//     }
+//     else if (existUser.password !== password.value) {
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Incorrect Password'
+
+//         return;
+//     }
+//     else if (password.value == '') {
+
+//         password.style.border = '1px solid red';
+//         passErrorMsg.innerHTML = 'Please Enter Your Password'
+
+//         return
+//     }
+
+//     // username.style.border = '1px solid #ccc';
+//     // password.style.border = '1px solid #ccc';
+
+//     // hideModal()
+// }
+
+// function hideModal() {
+//     let modalEl = document.querySelector('.modal');
+//     modalEl.style.display = 'none';
+// }
+
+
+// function showModal() {
+//     let modalEl = document.querySelector('.modal');
+//     modalEl.style.display = 'block';
+// }
+
+
+// window.onload = showModal();
 
 
 

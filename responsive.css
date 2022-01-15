@@ -1,8 +1,8 @@
 @media only screen and (max-width: 480px) {
   body {
     background-position: center;
-    height: 400px;
-    width: 400px;
+    height: 120vh;
+    width: 70vh;
   }
 
   #login-username,
@@ -72,12 +72,12 @@
     text-align: center;
   }
 
-  #deal-btn,
+  /* #deal-btn,
   #hit-btn,
   #stand-btn,
   #surrender-btn,
   #double-btn {
-  }
+  } */
 
   #result-window {
     width: 70%;

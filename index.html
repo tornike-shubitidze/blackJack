@@ -45,28 +45,27 @@
 
     <div id="id01" class="modal">
 
-        <form id="login-form" class="modal-login animate">
+        <form id="login-form" class="modal-login animate" required>
             <h1 id='login-text'>Login</h1>
 
             <div class="container">
                 <label for="uname"><b>Username:</b></label>
-                <input type="text" placeholder="Username" name="uname" id='login-username'
+                <input type="text" placeholder="Username" name="uname" id='login-username' onfocusout='checkUsername()'
                     onkeydown="enterKeyDown(this)" />
-                <label for="uname" class='username-error-message hidden'
-                    style="color: red; font-size: small;"></label><br><br>
+                <label for="uname" class='username-error-message' style="color: red; font-size: small;"></label><br><br>
 
                 <label for="psw"><b>Password:</b></label>
                 <input type="password" placeholder="Password" name="password" id='login-psw'
-                    onkeydown="enterKeyDown(this)" />
-                <label for="password" class='password-error-message hidden'
+                    onfocusout="checkPassword()" onkeydown="enterKeyDown(this)" />
+                <label for="password" class='password-error-message'
                     style="color: red; font-size: small;"></label><br><br>
 
-                <button type='button' id='login-btn' class='login-buttons' onclick="login()">Login</button>
-                <a id='login-register-btn' onclick="showRegistrationForm()">Registration</a>
+                <button type='button' id='login-btn' class='login-buttons' onclick="hideModal()" disabled>Login</button>
+                <h5 id='login-register-btn' onclick="showRegistrationForm()">Registration</h5>
             </div>
         </form>
 
-        <form id="registration-form" class="modal-registration animate hidden">
+        <form id="registration-form" class="modal-registration animate hidden" required>
 
             <div class="container">
                 <h1>Registration</h1>
@@ -106,6 +105,7 @@
 
                 <button type='button' id='register-btn' class='login-buttons'
                     onclick="userRegistration()">Register</button>
+                <h5 id='register-login-btn' onclick="showLoginForm()">Login</h5>
             </div>
 
         </form>
