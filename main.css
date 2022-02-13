@@ -5,62 +5,66 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: url(./imgs/1.jpg) no-repeat;
+  background: url(./imgs/Table.png) no-repeat;
   background-position: center/center;
   background-size: cover;
-  height: auto;
+  background-color: rgb(22, 13, 0);
 }
 
 .hidden {
   display: none;
 }
 
-.footer {
+.buttons {
   /* bottom: 45%;
-  left: 70%;
-  position: fixed; */
+  left: 70%; */
+  position: fixed;
   bottom: 1%;
   left: 43%;
-  position: fixed;
 }
 
-#deal-btn,
-#hit-btn,
-#stand-btn,
-#surrender-btn,
-#double-btn {
+.deal-btn,
+.hit-btn,
+.stand-btn,
+.surrender-btn,
+.double-btn {
   height: 90px;
   width: 60px;
   border-radius: 10px;
   background-position: cover;
 }
 
-#deal-btn {
+.deal-btn {
   background: url(./imgs/deal.jpg) no-repeat center;
 }
 
-#hit-btn {
+.hit-btn {
   background: url(./imgs/hit.jpg) no-repeat center;
 }
 
-#stand-btn {
+.stand-btn {
   background: url(./imgs/stand.jpg) no-repeat center;
 }
 
-#surrender-btn {
+.surrender-btn {
   background: url(./imgs/surrender.jpg) no-repeat center;
   width: 85px;
 }
 
-#double-btn {
+.double-btn {
   background: url(./imgs/double.jpg) no-repeat center;
+}
+
+.totals {
+  width: 20%;
+  color: darkorange;
+  text-align: center;
 }
 
 #total-bet,
 #total-win {
-  width: 4.5%;
-  height: 30px;
+  width: 90%;
+  height: 1.7rem;
   background-color: #333;
   border-radius: 8px;
   text-align: center;
@@ -69,12 +73,11 @@ body {
 }
 
 #beting {
-  margin-left: 24.6%;
-  margin-top: 8.4%;
-}
-
-#total-win {
-  margin-left: 53px;
+  display: flex;
+  position: fixed;
+  left: 4%;
+  top: 3rem;
+  min-width: 35%;
 }
 
 #dealer-side,
@@ -86,16 +89,17 @@ img {
   width: 10%;
 }
 
+#players-cards {
+  top: 10%;
+}
+
 #player-side img,
 #dealer-side img {
-  margin: -3.5%;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  height: 100%;
+  margin: 0px -3.5% 0px -3.5%;
 }
 
 #game-buttons,
-#result-window {
+.result-window {
   text-align: center;
 }
 
@@ -105,7 +109,7 @@ h2 {
   margin-bottom: 0;
 }
 
-#result-window {
+.result-window {
   height: 100%;
   width: 40%;
   margin: auto;

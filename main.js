@@ -144,13 +144,13 @@ function newGame() {
     playerHand = [];
     dealerHand = [];
 
-    document.querySelector('#result-window').classList.add('hidden');
+    document.querySelector('.result-window').classList.add('hidden');
     document.querySelector('#total-bet').value = 0;
 
     document.querySelector('.dealerhand-cards').innerHTML = '';
     document.querySelector('.playerhand-cards').innerHTML = '';
 
-    let dealBtn = document.querySelector('#deal-btn');
+    let dealBtn = document.querySelector('.deal-btn');
     dealBtn.classList.remove('hidden');
 
     statusMessage = '';
@@ -161,21 +161,21 @@ function gameStatus() {
     document.querySelector('#dealer-side').innerHTML = '';
     document.querySelector('#player-side').innerHTML = '';
 
-    document.querySelector('#result-window').classList.remove('hidden');
+    document.querySelector('.result-window').classList.remove('hidden');
 
-    let dealBtn = document.querySelector('#deal-btn');
+    let dealBtn = document.querySelector('.deal-btn');
     dealBtn.classList.add('hidden');
 
-    let hitBtn = document.querySelector('#hit-btn');
+    let hitBtn = document.querySelector('.hit-btn');
     hitBtn.classList.add('hidden');
 
-    let standBtn = document.querySelector('#stand-btn');
+    let standBtn = document.querySelector('.stand-btn');
     standBtn.classList.add('hidden');
 
-    let doubleBtn = document.querySelector('#double-btn');
+    let doubleBtn = document.querySelector('.double-btn');
     doubleBtn.classList.add('hidden');
 
-    let surrenderBtn = document.querySelector('#surrender-btn');
+    let surrenderBtn = document.querySelector('.surrender-btn');
     surrenderBtn.classList.add('hidden');
 
     document.querySelector('#status-message').innerHTML = statusMessage;
@@ -217,7 +217,7 @@ function playerGetBlackJack() {
 }
 
 function getTotalScore(cardsArray) {
-    let totalScore = 0
+    let totalScore = 0;
     for (let i = 0; i < cardsArray.length; i++) {
         totalScore += cardsArray[i].score;
     }
@@ -289,44 +289,44 @@ function dealCards() {
     }
 
     if ((dealerHand[0].name !== 'AC' || dealerHand[0].name !== 'AH' || dealerHand[0].name !== 'AD' || dealerHand[0].name !== 'AS') && getTotalScore(playerHand) !== 21) {
-        let dealBtn = document.querySelector('#deal-btn');
+        let dealBtn = document.querySelector('.deal-btn');
         dealBtn.classList.add('hidden');
 
-        let hitBtn = document.querySelector('#hit-btn');
+        let hitBtn = document.querySelector('.hit-btn');
         hitBtn.classList.remove('hidden');
 
-        let standBtn = document.querySelector('#stand-btn');
+        let standBtn = document.querySelector('.stand-btn');
         standBtn.classList.remove('hidden');
 
-        let doubleBtn = document.querySelector('#double-btn');
+        let doubleBtn = document.querySelector('.double-btn');
         doubleBtn.classList.remove('hidden');
 
-        let surrenderBtn = document.querySelector('#surrender-btn');
+        let surrenderBtn = document.querySelector('.surrender-btn');
         surrenderBtn.classList.remove('hidden');
     }
 }
 
 function printImageByGameStatus(statusCode) {
-    let resultWindowEl = document.querySelector("#result-window");
+    let resultWindowEl = document.querySelector('.result-window');
 
     switch (statusCode) {
         case STATUS.WIN:   // win
-            resultWindowEl.className = 'win animate';
+            resultWindowEl.classList.add('win');
             break;
         case STATUS.STANDWIN:   // win
-            resultWindowEl.className = 'win animate';
+            resultWindowEl.classList.add('win');
             break;
         case STATUS.LOSE: // lose
-            resultWindowEl.className = 'lose animate';
+            resultWindowEl.classList.add('lose');
             break;
         case STATUS.STANDLOSE:   // lose
-            resultWindowEl.className = 'lose animate';
+            resultWindowEl.classList.add('lose');
             break;
         case STATUS.DRAW: //draw
-            resultWindowEl.className = 'draw animate';
+            resultWindowEl.classList.add('draw');
             break;
         case STATUS.SURRENDER: //surrender
-            resultWindowEl.className = 'gave-up animate';
+            resultWindowEl.classList.add('gave-up');
             break;
         default:
             resultWindowEl.style.backgroundColor = '#f3f3f3';

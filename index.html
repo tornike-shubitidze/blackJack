@@ -12,31 +12,34 @@
 
 <body>
     <div id="beting">
-        <input id="total-bet" placeholder="Your Bet" />
-        <input id="total-win" placeholder="Your Win" readonly value="0" />
+        <div class="totals">
+            <span>Total Bet</span>
+            <br>
+            <input id="total-bet" placeholder="Your Bet" />
+        </div>
+        <div class="totals">
+            <span>Total Win</span>
+            <br>
+            <input id="total-win" placeholder="Your Win" readonly value="0" />
+        </div>
     </div>
 
-    <div id="result-window" class='hidden'><br>
-
+    <div class='result-window hidden animate'>
+        <br>
         <h2 id="status-message"></h2>
-
         <h4 id='dealer-text'></h4>
         <div class="dealerhand-cards">
-
         </div>
-
         <h4 id='player-text'></h4>
         <div class="playerhand-cards">
-
         </div>
         <button id="start-game" onclick="newGame()"> New Game </button>
-
     </div>
 
-    <div>
+    <div id="players-cards">
         <div id='dealer-side'>
-        </div><br>
-
+        </div>
+        <br>
         <div id='player-side'>
         </div>
     </div>
@@ -107,20 +110,19 @@
                     onclick="userRegistration()">Register</button>
                 <h5 id='register-login-btn' onclick="showLoginForm()">Login</h5>
             </div>
-
         </form>
-
     </div>
 
-    <footer class='footer'>
+    <!-- Game Buttons -->
+    <div class='buttons'>
         <div id='game-buttons'>
-            <button id='deal-btn' class='' onclick="dealCards()"></button>
-            <button id='hit-btn' class='hidden' onclick="hit()"></button>
-            <button id='stand-btn' class='hidden' onclick="stand()"></button>
-            <button id='surrender-btn' class='hidden' onclick="surrender()"></button>
-            <button id='double-btn' class='hidden' onclick="doubleBet()"></button>
+            <button class='deal-btn' onclick="dealCards()"></button>
+            <button class='hit-btn hidden' onclick="hit()"></button>
+            <button class='stand-btn hidden' onclick="stand()"></button>
+            <button class='surrender-btn hidden' onclick="surrender()"></button>
+            <button class='double-btn hidden' onclick="doubleBet()"></button>
         </div>
-    </footer>
+    </div>
 
     <script src="./main.js"></script>
 </body>
