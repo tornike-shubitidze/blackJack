@@ -1,5 +1,4 @@
 'use strict'
-// { name: '10D', score: 10 },{ name: 'AC', score: 11 }
 
 const USERS_KEY = 'users';
 const CARDS = [{ name: '2C', score: 2 }, { name: '3C', score: 3 }, { name: '4C', score: 4 }, { name: '5C', score: 5 }, { name: '6C', score: 6 }, { name: '7C', score: 7 }, { name: '8C', score: 8 }, { name: '9C', score: 9 }, { name: '10C', score: 10 }, { name: 'JC', score: 10 }, { name: 'QC', score: 10 }, { name: 'KC', score: 10 }, { name: 'AC', score: 11 },
@@ -10,6 +9,8 @@ var playerHand = [];
 var dealerHand = [];
 var statusMessage = '';
 var totalWin = document.querySelector('#total-win');
+var lastWin = document.querySelector('#last-win');
+var balance = document.querySelector('#total-balance');
 const STATUS = {
     WIN: 1,
     LOSE: 2,
@@ -21,44 +22,47 @@ const STATUS = {
 
 function printStatus(statusCode) {
     if (!statusCode) {
-        throw new Error("Status Code Not Passed!"); // todo
+        throw new Error("Status Code Not Passed!");
     }
 
-    let bet;
     var totalBet = document.querySelector('#total-bet');
 
     switch (statusCode) {
         case STATUS.WIN: // win
-            bet = parseFloat(totalBet.value) * 1.5;
-            statusMessage = `Congratulation! You Win🥳 Your Win Is ${bet}💰!`;
-            totalWin.value = parseFloat(totalWin.value) + bet;
+            lastWin.value = parseFloat(totalBet.value) * 1.5;
+            statusMessage = `Congratulation! You Win🥳 Your Win Is ${lastWin.value}💰!`;
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(totalBet.value) * 1.5;
+            balance.value = parseFloat(balance.value) + parseFloat(totalBet.value) * 1.5;
             break;
         case STATUS.LOSE: // lose
-            bet = parseFloat(totalBet.value);
-            statusMessage = `You Lose The Game😬 Your Lose Is ${bet}💰!`;
-            totalWin.value = parseFloat(totalWin.value) - bet;
+            lastWin.value = parseFloat(-totalBet.value);
+            statusMessage = `You Lose The Game😬 Your Lose Is ${-lastWin.value}💰!`;
+            totalWin.value = parseFloat(totalWin.value) - (-lastWin.value);
+            balance.value = parseFloat(balance.value) - parseFloat(totalBet.value);
             break;
         case STATUS.DRAW: //draw
-            bet = parseFloat(totalBet.value)
-            statusMessage = `Draw🤝 You Get Back Your Bet: ${bet}💰!`;
+            statusMessage = `Draw🤝 You Get Back Your Bet: ${parseFloat(totalBet.value)}💰!`;
             break;
         case STATUS.SURRENDER: //surrender
-            bet = parseFloat(totalBet.value) / 2;
-            statusMessage = `You Gave Up😕 You Lose ${bet}💰`;
-            totalWin.value = parseFloat(totalWin.value) - bet;
+            lastWin.value = parseFloat(-totalBet.value) / 2;
+            statusMessage = `You Gave Up😕 You Lose ${-lastWin.value}💰`;
+            totalWin.value = parseFloat(totalWin.value) - parseFloat(totalBet.value) / 2;
+            balance.value = parseFloat(balance.value) - parseFloat(totalBet.value) / 2;
             break;
-        case STATUS.STANDWIN:
-            bet = parseFloat(totalBet.value) * 2;
-            statusMessage = `Congratulation🥳 You Win! Your Win Is ${bet}💰!`;
-            totalWin.value = parseFloat(totalWin.value) + bet;
+        case STATUS.STANDWIN: //STAND (win)
+            lastWin.value = parseFloat(totalBet.value) * 2;
+            statusMessage = `Congratulation🥳 You Win! Your Win Is ${lastWin.value}💰!`;
+            totalWin.value = parseFloat(totalWin.value) + parseFloat(totalBet.value) * 2;
+            balance.value = parseFloat(balance.value) + parseFloat(totalBet.value) * 2;
             break;
-        case STATUS.STANDLOSE:
-            bet = parseFloat(totalBet.value) * 2;
-            statusMessage = `You Lose The Game😬 Your Lose Is ${bet}💰!`;
-            totalWin.value = parseFloat(totalWin.value) - bet;
+        case STATUS.STANDLOSE: //STAND (lose)
+            lastWin.value = parseFloat(-totalBet.value) * 2;
+            statusMessage = `You Lose The Game😬 Your Lose Is ${-lastWin.value}💰!`;
+            totalWin.value = parseFloat(totalWin.value) - (-lastWin.value);
+            balance.value = parseFloat(balance.value) - parseFloat(totalBet.value) * 2;
             break;
         default:
-            statusMessage = 'Incorrect Status Code! Please Check "printStatus Function"!'   // todo
+            statusMessage = 'Incorrect Status Code! Please Check "printStatus Function"!'
             break;
     }
 
@@ -67,6 +71,9 @@ function printStatus(statusCode) {
 
 function doubleBet() {
     let bet = document.querySelector('#total-bet');
+    if (parseFloat(bet.value) * 2 > parseFloat(balance.value)) {
+        return alert("You Cann't Double Your Bet! You don't have enought Balance😕")
+    }
     bet.value = parseFloat(bet.value) * 2;
 
     playerHand.push(getRandomCard(playerHand));
@@ -94,6 +101,11 @@ function doubleBet() {
 }
 
 function stand() {
+    let bet = document.querySelector('#total-bet');
+    if (parseFloat(bet.value) * 2 > parseFloat(balance.value)) {
+        return alert("You Cann't Use 'STAND' Button! Your Possible Lose is Greater than Your Balance😕")
+    }
+
     dealerHand.push(getRandomCard(dealerHand));
     document.querySelector('#dealer-side').innerHTML = '';
     printDealerCards(dealerHand);
@@ -101,7 +113,7 @@ function stand() {
     let dealerTotalScore = getTotalScore(dealerHand);
 
     if (dealerTotalScore > 21) {
-        printStatus(STATUS.WIN);
+        printStatus(STATUS.STANDWIN);
         gameStatus();
     }
 
@@ -141,6 +153,12 @@ function surrender() {
 }
 
 function newGame() {
+    if (balance.value == 0) {
+        if (confirm("Your Balace Is 0😕 Please Press 'OK' to Reload Page and Start New Game")) {
+            return window.location.reload();
+        } else return
+    }
+
     playerHand = [];
     dealerHand = [];
 
@@ -278,6 +296,10 @@ function dealCards() {
         return alert('Please Make Your Bet 🙂')
     }
 
+    if (parseFloat(bet.value) > parseFloat(balance.value)) {
+        return alert("You Don't Have Enought Balance😕 Please Change Your Bet🙂")
+    }
+
     dealPlayersCards();
     printDealerCards(dealerHand);
     printPlayerCards(playerHand);
@@ -311,22 +333,22 @@ function printImageByGameStatus(statusCode) {
 
     switch (statusCode) {
         case STATUS.WIN:   // win
-            resultWindowEl.classList.add('win');
+            resultWindowEl.className = 'result-window hidden animate win';
             break;
         case STATUS.STANDWIN:   // win
-            resultWindowEl.classList.add('win');
+            resultWindowEl.className = 'result-window hidden animate win';
             break;
         case STATUS.LOSE: // lose
-            resultWindowEl.classList.add('lose');
+            resultWindowEl.className = 'result-window hidden animate lose';
             break;
         case STATUS.STANDLOSE:   // lose
-            resultWindowEl.classList.add('lose');
+            resultWindowEl.className = 'result-window hidden animate lose';
             break;
         case STATUS.DRAW: //draw
-            resultWindowEl.classList.add('draw');
+            resultWindowEl.className = 'result-window hidden animate draw'
             break;
         case STATUS.SURRENDER: //surrender
-            resultWindowEl.classList.add('gave-up');
+            resultWindowEl.className = 'result-window hidden animate gave-up'
             break;
         default:
             resultWindowEl.style.backgroundColor = '#f3f3f3';

@@ -22,16 +22,32 @@
             <br>
             <input id="total-win" placeholder="Your Win" readonly value="0" />
         </div>
+        <div class="totals">
+            <span>Last Win</span>
+            <br>
+            <input id="last-win" value="0" />
+        </div>
+        <div class="totals">
+            <span>Balance</span>
+            <br>
+            <input id="total-balance" value="10" />
+        </div>
+
     </div>
 
     <div class='result-window hidden animate'>
         <br>
         <h2 id="status-message"></h2>
-        <h4 id='dealer-text'></h4>
-        <div class="dealerhand-cards">
+        <div>
+            <h4 id='dealer-text'></h4>
+            <div class="dealerhand-cards">
+            </div>
         </div>
-        <h4 id='player-text'></h4>
-        <div class="playerhand-cards">
+
+        <div>
+            <h4 id='player-text'></h4>
+            <div class="playerhand-cards">
+            </div>
         </div>
         <button id="start-game" onclick="newGame()"> New Game </button>
     </div>

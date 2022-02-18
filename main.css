@@ -16,8 +16,6 @@ body {
 }
 
 .buttons {
-  /* bottom: 45%;
-  left: 70%; */
   position: fixed;
   bottom: 1%;
   left: 43%;
@@ -56,13 +54,15 @@ body {
 }
 
 .totals {
-  width: 20%;
+  max-width: 30%;
   color: darkorange;
   text-align: center;
 }
 
 #total-bet,
-#total-win {
+#total-win,
+#total-balance,
+#last-win {
   width: 90%;
   height: 1.7rem;
   background-color: #333;
@@ -74,23 +74,27 @@ body {
 
 #beting {
   display: flex;
-  position: fixed;
   left: 4%;
-  top: 3rem;
-  min-width: 35%;
+  margin-bottom: 1.5rem;
+  max-width: 25%;
 }
 
 #dealer-side,
-#player-side {
+#player-side,
+#game-buttons,
+.result-window {
   text-align: center;
+}
+
+#dealer-side img,
+#player-side img {
+  /* height: 100%; */
+  width: 11%;
+  left: 20%;
 }
 
 img {
   width: 10%;
-}
-
-#players-cards {
-  top: 10%;
 }
 
 #player-side img,
@@ -98,49 +102,40 @@ img {
   margin: 0px -3.5% 0px -3.5%;
 }
 
-#game-buttons,
 .result-window {
-  text-align: center;
+  position: relative;
+  height: 80vh;
+  width: 70%;
+  top: 2rem;
+  margin: auto;
+  border-radius: 5%;
 }
 
 h4,
 h2 {
-  margin-top: 10px;
   margin-bottom: 0;
 }
 
-.result-window {
-  height: 100%;
-  width: 40%;
-  margin: auto;
-  /* background: url(./imgs/unsplash-2.jfif) no-repeat center; */
-  background-size: cover;
-  border-radius: 5%;
-  margin-top: 1%;
-  /* color: rgb(226, 43, 58); */
-  /* color: blueviolet; */
-}
-
 .status-cards-imgs {
-  padding-top: 10px;
-  width: 13%;
+  margin-top: 1%;
+  width: 10%;
 }
 
 #start-game {
-  height: 40px;
-  width: 25%;
-  margin: auto;
+  position: absolute;
+  height: 7%;
+  width: 20%;
+  left: 38%;
+  bottom: 2%;
   border-radius: 15px;
   border: hidden;
   background: rgb(226, 43, 58);
   color: yellow;
-  margin: 40px 0px;
+  margin: 1rem 0px 0px 0px;
   cursor: pointer;
 }
 
 #start-game:hover {
-  /* color: greenyellow;
-  background: rgb(96, 3, 182); */
   background: black;
 }
 
@@ -151,7 +146,6 @@ h2 {
 
 .lose {
   background: url(/imgs/unsplash-4.jpg) no-repeat center;
-  /* color: rgb(226, 43, 58) */
   color: yellow;
 }
 
