@@ -106,32 +106,34 @@ function stand() {
         return alert("You Cann't Use 'STAND' Button! Your Possible Lose is Greater than Your Balance😕")
     }
 
-    dealerHand.push(getRandomCard(dealerHand));
-    document.querySelector('#dealer-side').innerHTML = '';
-    printDealerCards(dealerHand);
 
-    let dealerTotalScore = getTotalScore(dealerHand);
+    if (getTotalScore(dealerHand) < 17) {
 
-    if (dealerTotalScore > 21) {
-        printStatus(STATUS.STANDWIN);
-        gameStatus();
-    }
+        dealerHand.push(getRandomCard(dealerHand));
+        document.querySelector('#dealer-side').innerHTML = '';
+        printDealerCards(dealerHand);
 
-    if (dealerTotalScore >= 17 && dealerTotalScore < 21) {
+        let dealerTotalScoreAfterStand = getTotalScore(dealerHand);
+
+        if (dealerTotalScoreAfterStand > 21) {
+            printStatus(STATUS.WIN);
+            gameStatus();
+        }
 
         let playerTotalScore = getTotalScore(playerHand);
 
-        if (dealerTotalScore > playerTotalScore) {
+        if (dealerTotalScoreAfterStand > playerTotalScore) {
             printStatus(STATUS.STANDLOSE);
         }
-        else if (dealerTotalScore < playerTotalScore) {
+        else if (dealerTotalScoreAfterStand < playerTotalScore) {
             printStatus(STATUS.STANDWIN);
         }
         else {
             printStatus(STATUS.DRAW);
         }
         gameStatus();
-    }
+    } else return alert('Dealer Not Allow You To Use STAND😕')
+
 }
 
 function hit() {
